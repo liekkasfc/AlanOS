@@ -1,0 +1,23 @@
+{
+  "$id": "todays_bet.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "opportunity_id", "date", "action", "timebox_minutes", "expected_signal", "give_up_rule"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "opportunity_id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "action": { "type": "string" },
+    "timebox_minutes": { "type": "integer" },
+    "expected_signal": { "type": "string" },
+    "give_up_rule": { "type": "string" },
+    "target_personas": { "type": "array", "items": { "type": "string" } },
+    "success_criteria": { "type": "string" },
+    "script_id": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+}

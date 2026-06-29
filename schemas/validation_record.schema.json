@@ -1,0 +1,24 @@
+{
+  "$id": "validation_record.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "validation_plan_id", "executed_at", "actions_taken", "outcome", "lesson"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "validation_plan_id": { "type": "string" },
+    "executed_at": { "type": "string", "format": "date-time" },
+    "actions_taken": { "type": "array", "items": { "type": "string" } },
+    "outcome": { "type": "string" },
+    "lesson": { "type": "string" },
+    "people_contacted": { "type": "integer" },
+    "responses": { "type": "array", "items": { "type": "string" } },
+    "revenue_signal_ids": { "type": "array", "items": { "type": "string" } },
+    "rejection_signal_ids": { "type": "array", "items": { "type": "string" } },
+    "next_action": { "type": "string" },
+    "time_spent_minutes": { "type": "integer" }
+  }
+}

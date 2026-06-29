@@ -1,0 +1,23 @@
+{
+  "$id": "opportunity.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "information_gap_id", "customer_segment", "buyer", "pain", "offer", "revenue_hypothesis"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "information_gap_id": { "type": "string" },
+    "customer_segment": { "type": "string" },
+    "buyer": { "type": "string" },
+    "pain": { "type": "string" },
+    "offer": { "type": "string" },
+    "revenue_hypothesis": { "type": "string" },
+    "distribution_path": { "type": "string" },
+    "lifecycle_stage": { "type": "string" },
+    "pricing_guess": { "type": "string" },
+    "riskiest_assumption": { "type": "string" }
+  }
+}

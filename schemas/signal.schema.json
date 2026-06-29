@@ -1,0 +1,22 @@
+{
+  "$id": "signal.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "captured_at", "title", "raw_content", "summary"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "captured_at": { "type": "string", "format": "date-time" },
+    "title": { "type": "string" },
+    "raw_content": { "type": "string" },
+    "summary": { "type": "string" },
+    "source_url": { "type": "string" },
+    "author": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "language": { "type": "string" },
+    "related_signal_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$id": "opportunity_genome.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "opportunity_id", "pain_intensity", "buyer_urgency", "budget_access", "timing_window"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "opportunity_id": { "type": "string" },
+    "pain_intensity": { "type": "string" },
+    "buyer_urgency": { "type": "string" },
+    "budget_access": { "type": "string" },
+    "timing_window": { "type": "string" },
+    "solution_substitutability": { "type": "string" },
+    "distribution_advantage": { "type": "string" },
+    "trust_requirement": { "type": "string" },
+    "serviceability": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+}

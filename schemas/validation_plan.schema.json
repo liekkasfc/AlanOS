@@ -1,0 +1,24 @@
+{
+  "$id": "validation_plan.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "todays_bet_id", "opportunity_id", "hypothesis", "action_steps", "target_count", "timebox_minutes", "success_threshold"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "todays_bet_id": { "type": "string" },
+    "opportunity_id": { "type": "string" },
+    "hypothesis": { "type": "string" },
+    "action_steps": { "type": "array", "items": { "type": "string" } },
+    "target_count": { "type": "integer" },
+    "timebox_minutes": { "type": "integer" },
+    "success_threshold": { "type": "string" },
+    "script": { "type": "string" },
+    "channels": { "type": "array", "items": { "type": "string" } },
+    "give_up_rule": { "type": "string" },
+    "risk_notes": { "type": "string" }
+  }
+}

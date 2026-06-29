@@ -1,0 +1,23 @@
+{
+  "$id": "information_gap.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "name", "description", "evidence_signal_ids", "who_has_the_gap", "who_needs_the_gap_closed", "why_now"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "evidence_signal_ids": { "type": "array", "items": { "type": "string" } },
+    "who_has_the_gap": { "type": "string" },
+    "who_needs_the_gap_closed": { "type": "string" },
+    "why_now": { "type": "string" },
+    "window_start": { "type": "string", "format": "date" },
+    "window_risk": { "type": "string" },
+    "contradicting_signal_ids": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$id": "money_dna.schema.json",
+  "type": "object",
+  "required": ["id", "created_at", "updated_at", "source", "confidence", "status", "opportunity_id", "skill_fit", "network_fit", "speed_to_execute", "personal_edge"],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "type": "string" },
+    "opportunity_id": { "type": "string" },
+    "skill_fit": { "type": "string" },
+    "network_fit": { "type": "string" },
+    "speed_to_execute": { "type": "string" },
+    "personal_edge": { "type": "string" },
+    "credibility_fit": { "type": "string" },
+    "interest_fit": { "type": "string" },
+    "delivery_risk": { "type": "string" },
+    "anti_patterns": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  }
+}
