@@ -28,13 +28,11 @@ Alan OS is not:
 - a reason to build before validation.
 
 ## Current Sprint
-Sprint 1 Manual Revenue Validation Loop.
+Sprint 2 Daily Bet Generator.
 
-The current sprint creates the smallest manual loop for running one complete revenue validation cycle:
+The current sprint creates a local manual-first generator that reads prepared JSON records and renders one daily action packet centered on Today's Bet.
 
-Signal -> InformationGap -> Opportunity -> Today's Bet -> ValidationPlan -> ValidationRecord -> RevenueSignal/RejectionSignal -> AlanMemory.
-
-No collectors, analyzers, automation, database, UI, external integrations, or business implementation code should be written in Sprint 1.
+The generator reduces formatting friction after Alan has already prepared records manually. It does not collect data, browse the web, call external APIs, use a database, create a UI, or turn Alan OS into a news dashboard.
 
 ## Directory Structure
 ```text
@@ -44,6 +42,7 @@ AlanOS/
   collectors/
   data/
     sample/
+      daily_output.sample.md
   docs/
     adr/
     rfc/
@@ -53,6 +52,7 @@ AlanOS/
       RFC-0003-WORKFLOW.md
       RFC-0004-SCHEMA.md
     runbooks/
+      daily_bet_generation.md
       manual_validation_loop.md
   engines/
   memory/
@@ -65,7 +65,12 @@ AlanOS/
     select_todays_bet.md
     update_alan_memory.md
   schemas/
+  scripts/
+    generate_daily_output.py
+  templates/
+    daily_output_template.md
   tests/
+    test_generate_daily_output.py
   validators/
   CODEX_GUIDE.md
   README.md
@@ -93,3 +98,15 @@ Use:
 - `prompts/` to extract gaps, generate opportunities, select Today's Bet, record validation, and update AlanMemory.
 
 The loop still optimizes for action over information: help Alan reach a validated revenue signal faster.
+
+## Sprint 2 Daily Bet Generator
+Sprint 2 renders a daily action packet from prepared local records.
+
+Use:
+
+- `scripts/generate_daily_output.py` to render Markdown from local JSON records,
+- `templates/daily_output_template.md` to review the required output structure,
+- `data/sample/daily_output.sample.md` to see one rendered sample packet,
+- `docs/runbooks/daily_bet_generation.md` to run the generator manually.
+
+The script must produce exactly one Today's Bet for a date and fail when multiple active candidates exist.

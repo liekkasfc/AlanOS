@@ -1,0 +1,24 @@
+{
+  "id": "alan_context_sample_001",
+  "created_at": "2026-06-29T08:30:00Z",
+  "updated_at": "2026-06-29T08:30:00Z",
+  "source": "manual_context",
+  "status": "active",
+  "constraints": [
+    "Limited daily execution time; prefer one 60-minute validation loop.",
+    "Cashflow pressure requires signals closer to payment than attention.",
+    "Prefer manual validation before product work.",
+    "Avoid heavy build before buyer signal.",
+    "Strong fit around AI, automation, technical service, bilingual research, and content output."
+  ],
+  "execution_preferences": [
+    "Choose buyer contact over passive research.",
+    "Prefer service-first offers that can be delivered manually.",
+    "Favor clear outreach, paid reviews, audits, teardowns, and buyer-language synthesis."
+  ],
+  "anti_patterns": [
+    "Do not build a full product before a buyer signal.",
+    "Do not turn daily output into a news digest.",
+    "Do not choose opportunities without a reachable buyer."
+  ]
+}

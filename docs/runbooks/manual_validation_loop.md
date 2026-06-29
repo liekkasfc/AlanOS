@@ -10,11 +10,11 @@ The point is not to collect more information. The point is to move from an infor
 ## Timebox
 Default timebox: 60 minutes.
 
-- 10 minutes: select Signals.
-- 10 minutes: extract one InformationGap.
-- 10 minutes: create one Opportunity.
+- 5 minutes: select Signals.
+- 5 minutes: extract one InformationGap.
+- 5 minutes: create one Opportunity.
 - 10 minutes: choose Today's Bet and write the ValidationPlan.
-- 15 minutes: execute the action.
+- 30 minutes: execute the action.
 - 5 minutes: record results and update AlanMemory.
 
 If execution needs the full 60 minutes, record the setup work and schedule the next action. Do not convert the loop into open-ended research.

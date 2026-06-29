@@ -1,10 +1,11 @@
 version: 1
-purpose: Manual-first source registry for Sprint 1 revenue validation.
+purpose: Manual-first source registry for Sprint 2 revenue validation.
 rules:
   - Sources are reviewed manually before any record is created.
   - Sources must help Alan reach a validated revenue signal faster.
   - Sources are not collector specifications.
-  - automation_allowed must remain false during Sprint 1.
+  - Example surfaces are manual review surfaces only, not collector targets.
+  - automation_allowed must remain false during Sprint 2.
 
 customer_pain_surfaces:
   - id: cps_founder_complaint_posts
@@ -16,6 +17,10 @@ customer_pain_surfaces:
       - urgent_workaround
       - repeated_question
       - tool_frustration
+    example_surfaces:
+      - Founder posts Alan manually opens from his network feed.
+      - Comment threads where founders describe blocked enterprise deals.
+      - Screenshots or notes from founder conversations Alan reviews manually.
     manual_review_steps:
       - Read the post and comments for concrete pain, buyer, timing, and current workaround.
       - Copy only the claim that could become a Signal.
@@ -31,6 +36,10 @@ customer_pain_surfaces:
       - budget_constraint
       - manual_process
       - recurring_objection
+    example_surfaces:
+      - Operator community questions Alan reads manually.
+      - Slack or Discord threads Alan is already allowed to access.
+      - Notes from customer support or implementation conversations.
     manual_review_steps:
       - Scan for repeated complaints from people doing the work.
       - Separate curiosity from painful, costly, or time-sensitive problems.
@@ -48,6 +57,10 @@ buyer_intent_surfaces:
       - budget_proxy
       - workflow_requirement
       - new_role_language
+    example_surfaces:
+      - Job descriptions Alan manually reviews for repeated workflow language.
+      - Contractor requests shared in communities Alan belongs to.
+      - Public hiring posts that name urgent outcomes or tools.
     manual_review_steps:
       - Identify the problem the company is hiring around.
       - Extract required outcomes, tools, and urgency clues.
@@ -63,6 +76,10 @@ buyer_intent_surfaces:
       - budget_confirmed_question
       - referral_request
       - vendor_search
+    example_surfaces:
+      - Founder group posts asking for paid help.
+      - Community referral threads where buyers request a specialist.
+      - Direct requests Alan receives from warm contacts.
     manual_review_steps:
       - Confirm the requester has a concrete outcome and near-term need.
       - Capture the requested deliverable, budget language, and deadline.
@@ -80,6 +97,10 @@ change_surfaces:
       - api_change
       - pricing_change
       - migration_pressure
+    example_surfaces:
+      - Changelog pages Alan manually opens after hearing about a change.
+      - Release notes mentioned by founders or operators.
+      - Pricing or policy pages checked during manual review.
     manual_review_steps:
       - Read the change note and identify who must adapt.
       - List likely affected workflows and compliance or revenue consequences.
@@ -95,6 +116,10 @@ change_surfaces:
       - procurement_requirement
       - security_review
       - buyer_risk_shift
+    example_surfaces:
+      - Procurement checklist examples shared by founders.
+      - Public compliance guidance Alan manually reads.
+      - Buyer requirement notes from sales or customer conversations.
     manual_review_steps:
       - Identify the buyer requirement and affected vendor segment.
       - Capture why the change matters now rather than later.
@@ -112,6 +137,10 @@ crowding_surfaces:
       - pricing_signal
       - category_language
       - specialization_gap
+    example_surfaces:
+      - Competitor landing pages Alan manually compares.
+      - Pricing pages used only for manual positioning review.
+      - Service pages that reveal crowded or underserved language.
     manual_review_steps:
       - Compare promises, pricing, and target segments across a few providers.
       - Look for underserved sub-segments or language mismatch.
@@ -127,6 +156,10 @@ crowding_surfaces:
       - price_anchor
       - demand_density
       - commodity_risk
+    example_surfaces:
+      - Marketplace listings Alan manually reviews for packaging patterns.
+      - Consultant profiles that show offer shape and price anchors.
+      - Public service descriptions found during manual comparison.
     manual_review_steps:
       - Review a small set of relevant listings for offer shape and buyer language.
       - Note price anchors and common deliverables.
@@ -144,6 +177,10 @@ alan_owned_surfaces:
       - direct_reply
       - referral_path
       - buyer_objection
+    example_surfaces:
+      - Alan's direct messages and warm intro notes.
+      - Personal contact list reviewed manually before outreach.
+      - Prior conversations that reveal buyer access.
     manual_review_steps:
       - List five people Alan can message today without setup.
       - Match each person to the Opportunity's buyer or referrer path.
@@ -159,6 +196,10 @@ alan_owned_surfaces:
       - comment_objection
       - direct_message_interest
       - no_response
+    example_surfaces:
+      - Alan's own posts and replies.
+      - Manual review of comments on a paid-offer post.
+      - Direct messages triggered by Alan's content.
     manual_review_steps:
       - Draft one narrow paid-offer post tied to a specific pain.
       - Publish only if it asks for a real response, call, or paid pilot.
