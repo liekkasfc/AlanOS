@@ -1,0 +1,18 @@
+{
+  "id": "opp_sample_001",
+  "created_at": "2026-06-29T09:20:00Z",
+  "updated_at": "2026-06-29T09:20:00Z",
+  "source": "gap_sample_001",
+  "confidence": 0.66,
+  "status": "active",
+  "information_gap_id": "gap_sample_001",
+  "customer_segment": "Small B2B AI vendors selling pilots to enterprise buyers",
+  "buyer": "Founder or head of sales",
+  "pain": "Enterprise procurement security questions delay pilots and create founder anxiety during sales.",
+  "offer": "Fixed-price 48-hour AI security questionnaire readiness review.",
+  "revenue_hypothesis": "Founders with active enterprise deals will pay for a fast review that reduces deal delay risk.",
+  "distribution_path": "Warm founder network and direct messages to AI tool founders",
+  "lifecycle_stage": "Early",
+  "pricing_guess": "USD 200 for the first manual review",
+  "riskiest_assumption": "Founders will pay for readiness help before the deal is formally blocked."
+}

@@ -1,0 +1,29 @@
+{
+  "id": "memory_sample_2026_w27",
+  "created_at": "2026-06-29T11:20:00Z",
+  "updated_at": "2026-06-29T11:20:00Z",
+  "source": "record_sample_001",
+  "confidence": 0.78,
+  "status": "active",
+  "period": "2026-W27",
+  "validated_patterns": [
+    "AI founders with active enterprise pilots respond to procurement-delay language.",
+    "A fixed-price manual readiness review is easier to validate than a software product."
+  ],
+  "rejected_patterns": [
+    "Pre-procurement founders understand the issue but do not show immediate willingness to pay."
+  ],
+  "lessons": [
+    "Lead with active deal delay, not generic compliance.",
+    "Ask for payment or a booked call before creating reusable templates."
+  ],
+  "strong_segments": ["Small B2B AI vendors with active enterprise pilots"],
+  "weak_segments": ["AI vendors without current procurement pressure"],
+  "money_dna_updates": [
+    "Alan can validate this opportunity fastest through founder DMs and buyer-language synthesis."
+  ],
+  "weekly_revenue_signals": ["rev_sample_001"],
+  "next_biases": [
+    "Prefer opportunities where Alan can name an active buyer event and offer a manual review within 48 hours."
+  ]
+}

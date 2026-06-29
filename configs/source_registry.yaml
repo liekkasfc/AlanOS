@@ -1,0 +1,167 @@
+version: 1
+purpose: Manual-first source registry for Sprint 1 revenue validation.
+rules:
+  - Sources are reviewed manually before any record is created.
+  - Sources must help Alan reach a validated revenue signal faster.
+  - Sources are not collector specifications.
+  - automation_allowed must remain false during Sprint 1.
+
+customer_pain_surfaces:
+  - id: cps_founder_complaint_posts
+    name: Founder complaint posts
+    category: customer_pain_surfaces
+    why_it_matters: Founders often describe blocked deals, urgent workflow pain, and messy buyer language before a market has clean categories.
+    signal_types:
+      - blocked_deal
+      - urgent_workaround
+      - repeated_question
+      - tool_frustration
+    manual_review_steps:
+      - Read the post and comments for concrete pain, buyer, timing, and current workaround.
+      - Copy only the claim that could become a Signal.
+      - Note who feels the pain and who might pay to remove it.
+    validation_use: Turn repeated founder pain into a reachable outreach list and a service-first offer.
+    automation_allowed: false
+  - id: cps_operator_community_threads
+    name: Operator community threads
+    category: customer_pain_surfaces
+    why_it_matters: Operators reveal operational pain, budget constraints, and unsolved handoff problems in plain language.
+    signal_types:
+      - workflow_bottleneck
+      - budget_constraint
+      - manual_process
+      - recurring_objection
+    manual_review_steps:
+      - Scan for repeated complaints from people doing the work.
+      - Separate curiosity from painful, costly, or time-sensitive problems.
+      - Capture exact language that could be reused in a validation message.
+    validation_use: Shape outreach scripts around operator wording instead of abstract trend language.
+    automation_allowed: false
+
+buyer_intent_surfaces:
+  - id: bis_job_posts
+    name: Job posts and contractor requests
+    category: buyer_intent_surfaces
+    why_it_matters: Hiring language exposes budget, urgency, role ownership, and workflows teams are willing to pay to solve.
+    signal_types:
+      - hiring_for_problem
+      - budget_proxy
+      - workflow_requirement
+      - new_role_language
+    manual_review_steps:
+      - Identify the problem the company is hiring around.
+      - Extract required outcomes, tools, and urgency clues.
+      - Ask whether Alan can validate a smaller manual service before software exists.
+    validation_use: Convert hiring demand into a consulting, audit, or teardown offer for a reachable buyer.
+    automation_allowed: false
+  - id: bis_paid_requests
+    name: Paid requests in founder and operator groups
+    category: buyer_intent_surfaces
+    why_it_matters: Direct requests for help are close to revenue because someone already admits the problem is worth outside attention.
+    signal_types:
+      - paid_help_request
+      - budget_confirmed_question
+      - referral_request
+      - vendor_search
+    manual_review_steps:
+      - Confirm the requester has a concrete outcome and near-term need.
+      - Capture the requested deliverable, budget language, and deadline.
+      - Decide whether Alan can reply with a narrow paid offer today.
+    validation_use: Prioritize Today's Bet candidates with explicit willingness to pay or refer.
+    automation_allowed: false
+
+change_surfaces:
+  - id: chs_platform_changelogs
+    name: Platform changelogs and API policy updates
+    category: change_surfaces
+    why_it_matters: Platform changes can create temporary confusion that buyers need translated into action.
+    signal_types:
+      - policy_change
+      - api_change
+      - pricing_change
+      - migration_pressure
+    manual_review_steps:
+      - Read the change note and identify who must adapt.
+      - List likely affected workflows and compliance or revenue consequences.
+      - Check whether the change creates a service Alan can validate manually.
+    validation_use: Create timing-aware offers such as migration reviews, readiness audits, or decision memos.
+    automation_allowed: false
+  - id: chs_regulation_and_procurement_updates
+    name: Regulation and procurement updates
+    category: change_surfaces
+    why_it_matters: New rules and buyer requirements create information gaps before vendors know how to respond.
+    signal_types:
+      - compliance_change
+      - procurement_requirement
+      - security_review
+      - buyer_risk_shift
+    manual_review_steps:
+      - Identify the buyer requirement and affected vendor segment.
+      - Capture why the change matters now rather than later.
+      - Look for founders or operators already blocked by the requirement.
+    validation_use: Turn a confusing requirement into a paid readiness review or buyer-language cleanup offer.
+    automation_allowed: false
+
+crowding_surfaces:
+  - id: crs_competitor_landing_pages
+    name: Competitor landing pages
+    category: crowding_surfaces
+    why_it_matters: Existing positioning shows whether a gap is early, crowded, commoditized, or still underserved.
+    signal_types:
+      - competitor_positioning
+      - pricing_signal
+      - category_language
+      - specialization_gap
+    manual_review_steps:
+      - Compare promises, pricing, and target segments across a few providers.
+      - Look for underserved sub-segments or language mismatch.
+      - Decide whether Alan should specialize, avoid, or validate a narrower offer.
+    validation_use: Prevent Alan from choosing Today's Bet in a crowded category without a sharp sub-gap.
+    automation_allowed: false
+  - id: crs_marketplace_service_listings
+    name: Marketplace service listings
+    category: crowding_surfaces
+    why_it_matters: Service marketplaces reveal how people package manual help and where buyers already expect to pay.
+    signal_types:
+      - service_packaging
+      - price_anchor
+      - demand_density
+      - commodity_risk
+    manual_review_steps:
+      - Review a small set of relevant listings for offer shape and buyer language.
+      - Note price anchors and common deliverables.
+      - Identify what would make Alan's manual offer faster, clearer, or more specific.
+    validation_use: Calibrate offer scope and price for the ValidationPlan without building software.
+    automation_allowed: false
+
+alan_owned_surfaces:
+  - id: aos_warm_network_messages
+    name: Warm network messages
+    category: alan_owned_surfaces
+    why_it_matters: Warm contacts reduce validation friction and can quickly produce replies, referrals, objections, or paid pilots.
+    signal_types:
+      - warm_intro
+      - direct_reply
+      - referral_path
+      - buyer_objection
+    manual_review_steps:
+      - List five people Alan can message today without setup.
+      - Match each person to the Opportunity's buyer or referrer path.
+      - Send a concise validation message and record every response or silence.
+    validation_use: Execute Today's Bet through the fastest reachable buyer or referrer path.
+    automation_allowed: false
+  - id: aos_personal_audience_posts
+    name: Personal audience posts
+    category: alan_owned_surfaces
+    why_it_matters: Alan can test buyer language and offer resonance with people who already recognize his voice.
+    signal_types:
+      - public_offer_reply
+      - comment_objection
+      - direct_message_interest
+      - no_response
+    manual_review_steps:
+      - Draft one narrow paid-offer post tied to a specific pain.
+      - Publish only if it asks for a real response, call, or paid pilot.
+      - Record replies, silence, objections, and referrals.
+    validation_use: Test whether Alan's audience contains reachable buyers for a specific manual service.
+    automation_allowed: false

@@ -1,0 +1,17 @@
+{
+  "id": "rev_sample_001",
+  "created_at": "2026-06-29T11:05:00Z",
+  "updated_at": "2026-06-29T11:05:00Z",
+  "source": "record_sample_001",
+  "confidence": 0.82,
+  "status": "active",
+  "validation_record_id": "record_sample_001",
+  "signal_type": "booked_call",
+  "strength": "medium",
+  "evidence": "Founder A booked a call to discuss a USD 200 readiness review for an active enterprise pilot.",
+  "amount": 200,
+  "currency": "USD",
+  "buyer": "AI startup founder",
+  "next_step": "Run the call and ask for payment before creating any reusable artifact.",
+  "expected_close_date": "2026-06-30"
+}

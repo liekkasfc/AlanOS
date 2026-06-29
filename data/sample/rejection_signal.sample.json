@@ -1,0 +1,16 @@
+{
+  "id": "rej_sample_001",
+  "created_at": "2026-06-29T11:10:00Z",
+  "updated_at": "2026-06-29T11:10:00Z",
+  "source": "record_sample_001",
+  "confidence": 0.74,
+  "status": "active",
+  "validation_record_id": "record_sample_001",
+  "rejection_type": "not_urgent",
+  "lesson": "Founders without an active procurement process understand the pain but do not treat it as worth paying for today.",
+  "stated_reason": "We probably need this later, but not this week.",
+  "implicit_reason": "No active enterprise buyer is forcing the work yet.",
+  "segment": "Pre-procurement AI vendor",
+  "objection": "Timing is too early.",
+  "follow_up_date": "2026-07-13"
+}

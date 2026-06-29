@@ -1,0 +1,16 @@
+{
+  "id": "sig_sample_001",
+  "created_at": "2026-06-29T09:00:00Z",
+  "updated_at": "2026-06-29T09:00:00Z",
+  "source": "cps_founder_complaint_posts",
+  "confidence": 0.72,
+  "status": "active",
+  "captured_at": "2026-06-29T08:50:00Z",
+  "title": "AI founder blocked by enterprise security questionnaire",
+  "raw_content": "A founder says an enterprise pilot is delayed because the buyer sent a security questionnaire the team does not know how to answer.",
+  "summary": "Small AI vendor is blocked by procurement security questions during an enterprise sales process.",
+  "source_url": "https://example.com/founder-security-questionnaire",
+  "author": "Example AI founder",
+  "tags": ["ai_vendor", "enterprise_sales", "security_questionnaire", "procurement"],
+  "language": "en"
+}

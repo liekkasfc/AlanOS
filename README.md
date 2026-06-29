@@ -28,17 +28,22 @@ Alan OS is not:
 - a reason to build before validation.
 
 ## Current Sprint
-Sprint 0 Foundation.
+Sprint 1 Manual Revenue Validation Loop.
 
-The current sprint is documentation-only. It defines the foundation, vision, domain model, workflow, schema contracts, and Codex operating guide.
+The current sprint creates the smallest manual loop for running one complete revenue validation cycle:
 
-No business implementation code should be written in Sprint 0.
+Signal -> InformationGap -> Opportunity -> Today's Bet -> ValidationPlan -> ValidationRecord -> RevenueSignal/RejectionSignal -> AlanMemory.
+
+No collectors, analyzers, automation, database, UI, external integrations, or business implementation code should be written in Sprint 1.
 
 ## Directory Structure
 ```text
 AlanOS/
   analyzers/
+  configs/
   collectors/
+  data/
+    sample/
   docs/
     adr/
     rfc/
@@ -47,11 +52,18 @@ AlanOS/
       RFC-0002-DOMAIN_MODEL.md
       RFC-0003-WORKFLOW.md
       RFC-0004-SCHEMA.md
+    runbooks/
+      manual_validation_loop.md
   engines/
   memory/
   outputs/
   prompts/
     SPRINT-000-ALAN-OS-FOUNDATION.md
+    extract_information_gap.md
+    generate_opportunity.md
+    record_validation.md
+    select_todays_bet.md
+    update_alan_memory.md
   schemas/
   tests/
   validators/
@@ -70,14 +82,14 @@ Read the RFCs in order:
 
 Then read `CODEX_GUIDE.md` before asking an agent to modify the project.
 
-## Next Sprint Suggestion
-Sprint 1 should implement the smallest manual validation loop, not a full product.
+## Sprint 1 Manual Loop
+Sprint 1 supports manual validation, not a full product.
 
-Recommended Sprint 1 scope:
+Use:
 
-- create sample JSON records for one Signal, one InformationGap, one Opportunity, one Today's Bet, one ValidationPlan, and one ValidationRecord,
-- add lightweight schema files only if they directly support manual validation,
-- add a simple command or checklist for generating Today's Bet from a prepared Opportunity,
-- preserve the rule that validation comes before product development.
+- `configs/source_registry.yaml` to pick manual-first sources,
+- `data/sample/` to see one complete sample chain,
+- `docs/runbooks/manual_validation_loop.md` to run the 60-minute loop,
+- `prompts/` to extract gaps, generate opportunities, select Today's Bet, record validation, and update AlanMemory.
 
-The next sprint should still optimize for action over information: help Alan reach a validated revenue signal faster.
+The loop still optimizes for action over information: help Alan reach a validated revenue signal faster.

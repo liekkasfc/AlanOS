@@ -1,0 +1,17 @@
+{
+  "id": "gap_sample_001",
+  "created_at": "2026-06-29T09:10:00Z",
+  "updated_at": "2026-06-29T09:10:00Z",
+  "source": "signal_cluster_manual",
+  "confidence": 0.7,
+  "status": "active",
+  "name": "AI procurement readiness gap",
+  "description": "Small AI vendors are encountering enterprise security questionnaires before they have reusable, buyer-ready answers.",
+  "evidence_signal_ids": ["sig_sample_001"],
+  "who_has_the_gap": "Founders currently inside enterprise procurement conversations",
+  "who_needs_the_gap_closed": "Small B2B AI vendors starting enterprise pilots",
+  "why_now": "Enterprise buyers are adding AI security review steps faster than small vendors can prepare credible answers.",
+  "window_start": "2026-06-29",
+  "window_risk": "The gap may close as generic templates and compliance vendors package this workflow.",
+  "notes": "Validate with founders before creating any reusable tool."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "bet_sample_001",
+  "created_at": "2026-06-29T09:30:00Z",
+  "updated_at": "2026-06-29T09:30:00Z",
+  "source": "opp_sample_001",
+  "confidence": 0.68,
+  "status": "planned",
+  "opportunity_id": "opp_sample_001",
+  "date": "2026-06-29",
+  "action": "Send five targeted messages to AI founders asking whether enterprise security questionnaires have delayed a deal and offering a paid readiness review.",
+  "timebox_minutes": 60,
+  "expected_signal": "A serious reply, booked call, paid review request, referral, or clear objection.",
+  "give_up_rule": "If there are no replies after two follow-ups, record weak segment signal and test a different buyer path.",
+  "target_personas": ["AI startup founder", "Head of sales at small AI vendor"],
+  "success_criteria": "At least one serious reply, booked call, or paid review request.",
+  "script_id": "security_questionnaire_readiness_outreach",
+  "notes": "Do not build templates before founder validation."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "record_sample_001",
+  "created_at": "2026-06-29T11:00:00Z",
+  "updated_at": "2026-06-29T11:00:00Z",
+  "source": "plan_sample_001",
+  "confidence": 0.82,
+  "status": "completed",
+  "validation_plan_id": "plan_sample_001",
+  "executed_at": "2026-06-29T10:45:00Z",
+  "actions_taken": [
+    "Sent five direct messages to AI founders.",
+    "Offered a USD 200 readiness review.",
+    "Recorded replies and silence before opening another research path."
+  ],
+  "outcome": "One founder booked a call, one founder said the pain is not urgent yet, and three founders did not reply.",
+  "lesson": "Procurement-delay language creates a stronger response than generic compliance language, but urgency depends on active enterprise deals.",
+  "people_contacted": 5,
+  "responses": [
+    "Founder A booked a call to discuss a paid readiness review.",
+    "Founder B said security questionnaires are not urgent until procurement starts.",
+    "Three founders did not reply during the timebox."
+  ],
+  "revenue_signal_ids": ["rev_sample_001"],
+  "rejection_signal_ids": ["rej_sample_001"],
+  "next_action": "Run the same offer against founders with known active enterprise pilots.",
+  "time_spent_minutes": 60
+}

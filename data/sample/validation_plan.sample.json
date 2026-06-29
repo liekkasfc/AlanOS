@@ -1,0 +1,24 @@
+{
+  "id": "plan_sample_001",
+  "created_at": "2026-06-29T09:35:00Z",
+  "updated_at": "2026-06-29T09:35:00Z",
+  "source": "bet_sample_001",
+  "confidence": 0.7,
+  "status": "planned",
+  "todays_bet_id": "bet_sample_001",
+  "opportunity_id": "opp_sample_001",
+  "hypothesis": "Founders with active enterprise deals will discuss or pay for a fast security-questionnaire readiness review.",
+  "action_steps": [
+    "List five AI founders with enterprise sales motion.",
+    "Send a concise message naming procurement questionnaire pain.",
+    "Offer a fixed-price readiness review before suggesting any product.",
+    "Record every reply, objection, referral, and silence."
+  ],
+  "target_count": 5,
+  "timebox_minutes": 60,
+  "success_threshold": "One serious reply, booked call, referral to a buyer, or paid review request.",
+  "script": "Quick question: have enterprise security questionnaires delayed any AI pilot for you? I am testing a 48-hour readiness review that turns messy answers into buyer-ready responses. If this is active pain, would a USD 200 review be useful this week?",
+  "channels": ["warm_network_dm", "founder_direct_message"],
+  "give_up_rule": "Stop after five messages and one follow-up batch; record silence as a RejectionSignal.",
+  "risk_notes": "Avoid turning this into a template product before a founder confirms urgency or budget."
+}
