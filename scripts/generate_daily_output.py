@@ -44,12 +44,12 @@ def infer_entity(path: Path) -> str | None:
     return None
 
 
-def load_records(sample_dir: Path) -> dict[str, list[dict[str, Any]]]:
-    if not sample_dir.exists() or not sample_dir.is_dir():
-        raise ValueError(f"sample directory not found: {sample_dir}")
+def load_records(records_dir: Path) -> dict[str, list[dict[str, Any]]]:
+    if not records_dir.exists() or not records_dir.is_dir():
+        raise ValueError(f"records directory not found: {records_dir}")
 
     records: dict[str, list[dict[str, Any]]] = {prefix: [] for prefix in ENTITY_PREFIXES}
-    for path in sorted(sample_dir.glob("*.json")):
+    for path in sorted(records_dir.glob("*.json")):
         entity = infer_entity(path)
         if entity:
             records[entity].append(load_json(path))
@@ -266,6 +266,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--sample-dir",
+        "--records-dir",
+        dest="records_dir",
         type=Path,
         default=Path("data/sample"),
         help="Directory containing local prepared JSON records.",
@@ -277,7 +279,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
-        records = load_records(args.sample_dir)
+        records = load_records(args.records_dir)
         print(render_daily_output(records, args.date), end="")
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)

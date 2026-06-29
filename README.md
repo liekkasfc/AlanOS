@@ -28,11 +28,11 @@ Alan OS is not:
 - a reason to build before validation.
 
 ## Current Sprint
-Sprint 2 Daily Bet Generator.
+Sprint 3 Local Validation Workspace.
 
-The current sprint creates a local manual-first generator that reads prepared JSON records and renders one daily action packet centered on Today's Bet.
+The current sprint makes Alan OS usable for a real daily manual validation workflow using local date folders.
 
-The generator reduces formatting friction after Alan has already prepared records manually. It does not collect data, browse the web, call external APIs, use a database, create a UI, or turn Alan OS into a news dashboard.
+The local workspace creates, validates, and renders prepared records. It does not collect data, browse the web, call external APIs, use a database, create a UI, or turn Alan OS into a news dashboard.
 
 ## Directory Structure
 ```text
@@ -41,6 +41,7 @@ AlanOS/
   configs/
   collectors/
   data/
+    daily/
     sample/
       daily_output.sample.md
   docs/
@@ -53,6 +54,7 @@ AlanOS/
       RFC-0004-SCHEMA.md
     runbooks/
       daily_bet_generation.md
+      local_validation_workspace.md
       manual_validation_loop.md
   engines/
   memory/
@@ -67,11 +69,16 @@ AlanOS/
   schemas/
   scripts/
     generate_daily_output.py
+    init_daily_workspace.py
+    validate_records.py
   templates/
     daily_output_template.md
   tests/
     test_generate_daily_output.py
+    test_init_daily_workspace.py
+    test_validate_records.py
   validators/
+  Makefile
   CODEX_GUIDE.md
   README.md
 ```
@@ -110,3 +117,16 @@ Use:
 - `docs/runbooks/daily_bet_generation.md` to run the generator manually.
 
 The script must produce exactly one Today's Bet for a date and fail when multiple active candidates exist.
+
+## Sprint 3 Local Validation Workspace
+Sprint 3 supports real local daily folders under `data/daily/YYYY-MM-DD/`.
+
+Use:
+
+- `make init-day DATE=2026-06-29` to create local manual record files,
+- `make validate-day DATE=2026-06-29` to validate local JSON records,
+- `make render-day DATE=2026-06-29` to render the daily action packet,
+- `make sample-output` to inspect the sample packet,
+- `make test` to run the local test suite.
+
+`scripts/validate_records.py` uses a small local schema validator for the current Alan OS schema subset. No `jsonschema` package is required.

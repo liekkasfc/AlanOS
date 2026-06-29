@@ -6,7 +6,7 @@ This runbook explains how to generate one daily action packet centered on Today'
 The generator exists only to reduce formatting friction after Alan has already prepared the records manually. It does not collect data, browse the web, call external APIs, use a database, create a UI, or choose from a news dashboard.
 
 ## Inputs
-Use prepared JSON records in `data/sample/` or another local directory with the same record shapes:
+Use prepared JSON records in `data/sample/` or `data/daily/YYYY-MM-DD/` with the same record shapes:
 
 - Signal
 - InformationGap
@@ -19,7 +19,7 @@ Use prepared JSON records in `data/sample/` or another local directory with the 
 - AlanMemory
 - Alan Context
 
-The generator expects exactly one active daily bet for the selected date. In Sprint 2, `planned` and `active` Today's Bet records count as active candidates because they are still open for action.
+The generator expects exactly one active daily bet for the selected date. In the local workspace, `planned` and `active` Today's Bet records count as active candidates because they are still open for action.
 
 ## Output Shape
 The Markdown output follows `templates/daily_output_template.md` and RFC-0005:
@@ -32,11 +32,17 @@ The Markdown output follows `templates/daily_output_template.md` and RFC-0005:
 
 Today's Bet must appear once. If Alan has more than one candidate for the date, stop and resolve the decision manually.
 
-## Command
+## Commands
 Generate the sample daily packet:
 
 ```bash
-rtk python3 scripts/generate_daily_output.py --sample-dir data/sample --date 2026-06-29
+python3 scripts/generate_daily_output.py --sample-dir data/sample --date 2026-06-29
+```
+
+Generate a daily packet from a real local workspace:
+
+```bash
+python3 scripts/generate_daily_output.py --records-dir data/daily/2026-06-29 --date 2026-06-29
 ```
 
 The command prints Markdown to stdout. It does not write files by default.

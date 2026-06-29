@@ -19,6 +19,15 @@ def run_generator(sample_dir: Path, date: str = "2026-06-29") -> subprocess.Comp
     )
 
 
+def run_generator_with_records_dir(records_dir: Path, date: str = "2026-06-29") -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(SCRIPT), "--records-dir", str(records_dir), "--date", date],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
 def copy_sample_dir(tmp_path: Path) -> Path:
     copied = tmp_path / "sample"
     shutil.copytree(SAMPLE_DIR, copied)
@@ -27,6 +36,14 @@ def copy_sample_dir(tmp_path: Path) -> Path:
 
 def test_daily_output_contains_exactly_one_todays_bet_section():
     result = run_generator(SAMPLE_DIR)
+
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.count("## Today's Bet") == 1
+    assert "bet_sample_001" in result.stdout
+
+
+def test_daily_output_supports_records_dir_alias():
+    result = run_generator_with_records_dir(SAMPLE_DIR)
 
     assert result.returncode == 0, result.stderr
     assert result.stdout.count("## Today's Bet") == 1
