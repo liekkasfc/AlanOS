@@ -48,9 +48,13 @@ def test_init_daily_workspace_creates_date_folder_with_manual_templates(tmp_path
     assert day_dir.is_dir()
     assert sorted(path.name for path in day_dir.glob("*.json")) == sorted(EXPECTED_FILES)
     todays_bet = json.loads((day_dir / "todays_bet.json").read_text())
+    revenue_signal = json.loads((day_dir / "revenue_signal.json").read_text())
+    rejection_signal = json.loads((day_dir / "rejection_signal.json").read_text())
     assert todays_bet["date"] == "2026-06-29"
     assert todays_bet["status"] == "planned"
     assert todays_bet["opportunity_id"].startswith("opp_20260629")
+    assert "Post-execution placeholder" in revenue_signal["notes"]
+    assert "Post-execution placeholder" in rejection_signal["notes"]
 
 
 def test_init_daily_workspace_from_sample_copies_example_records(tmp_path):

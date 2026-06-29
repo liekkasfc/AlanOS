@@ -37,7 +37,7 @@ Why now: Enterprise buyers are adding AI security review steps faster than small
 Riskiest assumption: Founders will pay for readiness help before the deal is formally blocked.
 
 Alan constraints:
-- Limited daily execution time; prefer one 60-minute validation loop.
+- Limited daily execution time; prefer one focused validation loop.
 - Cashflow pressure requires signals closer to payment than attention.
 - Prefer manual validation before product work.
 - Avoid heavy build before buyer signal.

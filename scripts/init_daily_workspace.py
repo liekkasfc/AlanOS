@@ -171,7 +171,8 @@ def template_records(date: str) -> dict[str, dict[str, Any]]:
             "strength": "weak",
             "evidence": "TODO: payment-adjacent evidence",
             "buyer": "TODO: buyer or referrer",
-            "next_step": "TODO: next step toward payment"
+            "next_step": "TODO: next step toward payment",
+            "notes": "Post-execution placeholder; optional until execution produces a real RevenueSignal."
         },
         "rejection_signal": {
             "id": rejection_id,
@@ -187,7 +188,8 @@ def template_records(date: str) -> dict[str, dict[str, Any]]:
             "implicit_reason": "TODO: inferred reason if any",
             "segment": "TODO: affected segment",
             "objection": "TODO: objection or silence",
-            "follow_up_date": date
+            "follow_up_date": date,
+            "notes": "Post-execution placeholder; optional until execution produces a real RejectionSignal."
         },
         "alan_memory": {
             "id": f"memory_{compact}",

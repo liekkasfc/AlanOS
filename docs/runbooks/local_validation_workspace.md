@@ -28,6 +28,19 @@ Each folder contains local manual records:
 - `rejection_signal.json`
 - `alan_memory.json`
 
+`revenue_signal.json` and `rejection_signal.json` are post-execution records. The initializer keeps placeholder files for backward compatibility, but they are optional until execution produces real evidence.
+
+## Alan Context
+Alan's persistent personal context lives at:
+
+```text
+memory/alan_context.json
+```
+
+Use it for stable constraints such as limited daily execution time, cashflow pressure, manual validation preference, avoiding heavy build before buyer signal, and Alan's strongest fit areas.
+
+If a daily folder contains `alan_context.json`, the daily renderer uses that file first. If not, it falls back to `memory/alan_context.json`. If neither file exists, the output says `No Alan Context recorded.`
+
 ## Step 1: Create a Date Folder
 Create blank manual templates:
 
@@ -63,9 +76,17 @@ Run local schema validation:
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29
 ```
 
-Validation checks local JSON files against local `schemas/*.schema.json` files. It does not use a database or external API.
+Structural validation checks local JSON files against local `schemas/*.schema.json` files. It checks required fields, simple types, enums, and date formats. It does not use a database or external API.
 
 If validation fails, fix the reported file and field before rendering the daily output.
+
+Then run execution-readiness validation before Alan acts:
+
+```bash
+python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --ready
+```
+
+Readiness validation fails on TODO placeholders and missing execution-critical fields: Today's Bet action, target personas, expected signal, give-up rule, ValidationPlan target count, script, and action steps. If post-execution placeholder files contain TODO values, either complete them after execution or remove them from the folder before a pre-execution readiness check.
 
 ## Step 4: Generate Daily Output
 Render one daily action packet:
@@ -115,10 +136,13 @@ The Makefile wraps the same local commands:
 ```bash
 make init-day DATE=2026-06-29
 make validate-day DATE=2026-06-29
+make validate-ready DATE=2026-06-29
 make render-day DATE=2026-06-29
 make sample-output
 make test
 ```
+
+`make validate-day` is structural validation. `make validate-ready` is execution-readiness validation. Run both before rendering a real daily packet.
 
 ## What Not To Do
 - Do not build collectors.

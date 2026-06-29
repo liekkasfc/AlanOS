@@ -19,6 +19,8 @@ Use prepared JSON records in `data/sample/` or `data/daily/YYYY-MM-DD/` with the
 - AlanMemory
 - Alan Context
 
+Alan Context is read from `alan_context.json` in the records directory when that exact file exists. Otherwise the renderer falls back to `memory/alan_context.json`. If neither file exists, the packet says `No Alan Context recorded.`
+
 The generator expects exactly one active daily bet for the selected date. In the local workspace, `planned` and `active` Today's Bet records count as active candidates because they are still open for action.
 
 ## Output Shape

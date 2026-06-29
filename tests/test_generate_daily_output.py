@@ -60,6 +60,40 @@ def test_daily_output_contains_required_action_fields():
     assert "A serious reply, booked call, paid review request" in result.stdout
 
 
+def test_generate_daily_output_uses_memory_alan_context_when_records_dir_missing_context(tmp_path):
+    sample_dir = copy_sample_dir(tmp_path)
+    (sample_dir / "alan_context.sample.json").unlink()
+
+    result = run_generator_with_records_dir(sample_dir)
+
+    assert result.returncode == 0, result.stderr
+    assert "Limited daily execution time" in result.stdout
+    assert "Cashflow pressure" in result.stdout
+
+
+def test_generate_daily_output_prefers_records_dir_alan_context_json(tmp_path):
+    sample_dir = copy_sample_dir(tmp_path)
+    (sample_dir / "alan_context.json").write_text(
+        json.dumps(
+            {
+                "id": "alan_context_local_test",
+                "created_at": "2026-06-29T00:00:00Z",
+                "updated_at": "2026-06-29T00:00:00Z",
+                "source": "manual_context",
+                "status": "active",
+                "constraints": ["Local day constraint wins."],
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+    result = run_generator_with_records_dir(sample_dir)
+
+    assert result.returncode == 0, result.stderr
+    assert "Local day constraint wins." in result.stdout
+
+
 def test_daily_output_contains_validation_plan_and_recording_prompts():
     result = run_generator(SAMPLE_DIR)
 

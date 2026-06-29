@@ -27,6 +27,7 @@ Before starting, Alan should have:
 - `data/sample/` open as examples,
 - the five Sprint 1 prompts available,
 - a place to save manual JSON records,
+- `memory/alan_context.json` reviewed for current constraints,
 - one reachable buyer path or audience surface,
 - a clear rule that no product development happens during the loop.
 

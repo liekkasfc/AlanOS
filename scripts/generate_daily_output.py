@@ -112,7 +112,20 @@ def scalar(value: Any, fallback: str = "Not recorded") -> str:
     return str(value)
 
 
-def render_daily_output(records: dict[str, list[dict[str, Any]]], date: str) -> str:
+def load_alan_context(records_dir: Path, memory_context_path: Path) -> dict[str, Any]:
+    records_context_path = records_dir / "alan_context.json"
+    if records_context_path.exists():
+        return load_json(records_context_path)
+    if memory_context_path.exists():
+        return load_json(memory_context_path)
+    return {}
+
+
+def render_daily_output(
+    records: dict[str, list[dict[str, Any]]],
+    date: str,
+    alan_context: dict[str, Any] | None = None,
+) -> str:
     bet = select_one_bet(records, date)
 
     opportunities = index_by_id(records["opportunity"], "opportunity")
@@ -145,7 +158,7 @@ def render_daily_output(records: dict[str, list[dict[str, Any]]], date: str) -> 
             for signal_id in record.get("rejection_signal_ids", [])
         ]
 
-    alan_context = records["alan_context"][0] if records["alan_context"] else {}
+    alan_context = alan_context or {}
     memory = records["alan_memory"][0] if records["alan_memory"] else {}
 
     action_steps = bullet_list(plan.get("action_steps", []) if plan else [])
@@ -169,7 +182,11 @@ def render_daily_output(records: dict[str, list[dict[str, Any]]], date: str) -> 
         ]
     )
 
-    context_constraints = bullet_list(alan_context.get("constraints", []))
+    context_constraints = (
+        bullet_list(alan_context.get("constraints", []))
+        if alan_context
+        else "- No Alan Context recorded."
+    )
     memory_biases = bullet_list(memory.get("next_biases", []))
 
     return f"""# Daily Action Packet
@@ -273,6 +290,12 @@ def parse_args() -> argparse.Namespace:
         help="Directory containing local prepared JSON records.",
     )
     parser.add_argument("--date", required=True, help="Date for Today's Bet, in YYYY-MM-DD.")
+    parser.add_argument(
+        "--memory-context",
+        type=Path,
+        default=Path("memory/alan_context.json"),
+        help="Fallback persistent Alan Context file.",
+    )
     return parser.parse_args()
 
 
@@ -280,7 +303,8 @@ def main() -> int:
     args = parse_args()
     try:
         records = load_records(args.records_dir)
-        print(render_daily_output(records, args.date), end="")
+        alan_context = load_alan_context(args.records_dir, args.memory_context)
+        print(render_daily_output(records, args.date, alan_context), end="")
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1

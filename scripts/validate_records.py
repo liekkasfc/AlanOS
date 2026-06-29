@@ -13,6 +13,10 @@ from typing import Any
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 DATE_TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+PLACEHOLDER_RE = re.compile(
+    r"^\s*$|\b(TODO|TBD|PLACEHOLDER|REPLACE ME|FILL ME|FILL IN)\b",
+    re.IGNORECASE,
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -147,6 +151,90 @@ def validate_records(records_dir: Path, schema_dir: Path) -> list[str]:
     return errors
 
 
+def contains_todo(value: Any) -> bool:
+    return isinstance(value, str) and "TODO" in value.upper()
+
+
+def is_placeholder(value: Any) -> bool:
+    return not isinstance(value, str) or PLACEHOLDER_RE.search(value) is not None
+
+
+def iter_string_fields(value: Any, field_path: str = "") -> list[tuple[str, str]]:
+    fields: list[tuple[str, str]] = []
+    if isinstance(value, str):
+        fields.append((field_path, value))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            path = f"{field_path}[{index}]" if field_path else f"[{index}]"
+            fields.extend(iter_string_fields(item, path))
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            path = f"{field_path}.{key}" if field_path else key
+            fields.extend(iter_string_fields(item, path))
+    return fields
+
+
+def add_ready_error(errors: list[str], path: Path, field: str, message: str) -> None:
+    errors.append(f"{path}: {field}: {message}")
+
+
+def validate_ready_record(path: Path, entity: str, record: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    for field, value in iter_string_fields(record):
+        if contains_todo(value):
+            add_ready_error(errors, path, field, "contains TODO placeholder")
+
+    if entity == "todays_bet":
+        if is_placeholder(record.get("action")):
+            add_ready_error(errors, path, "action", "must be filled before execution")
+        target_personas = record.get("target_personas")
+        if (
+            not isinstance(target_personas, list)
+            or not target_personas
+            or any(is_placeholder(persona) for persona in target_personas)
+        ):
+            add_ready_error(errors, path, "target_personas", "must include at least one reachable persona")
+        if is_placeholder(record.get("expected_signal")):
+            add_ready_error(errors, path, "expected_signal", "must be filled before execution")
+        if is_placeholder(record.get("give_up_rule")):
+            add_ready_error(errors, path, "give_up_rule", "must be filled before execution")
+
+    if entity == "validation_plan":
+        target_count = record.get("target_count")
+        if not isinstance(target_count, int) or isinstance(target_count, bool) or target_count <= 0:
+            add_ready_error(errors, path, "target_count", "must be greater than 0")
+        if is_placeholder(record.get("script")):
+            add_ready_error(errors, path, "script", "must be filled before execution")
+        action_steps = record.get("action_steps")
+        if not isinstance(action_steps, list) or not action_steps:
+            add_ready_error(errors, path, "action_steps", "must include executable steps")
+        elif any(is_placeholder(step) for step in action_steps):
+            add_ready_error(errors, path, "action_steps", "must not contain TODO placeholders")
+    return errors
+
+
+def validate_readiness(records_dir: Path, schema_dir: Path) -> list[str]:
+    if not records_dir.exists() or not records_dir.is_dir():
+        raise ValueError(f"records directory not found: {records_dir}")
+    schemas = load_schemas(schema_dir)
+    errors: list[str] = []
+    json_paths = sorted(records_dir.glob("*.json"))
+    if not json_paths:
+        raise ValueError(f"no JSON records found in {records_dir}")
+
+    for path in json_paths:
+        entity = infer_entity(path, schemas)
+        if entity is None:
+            continue
+        try:
+            record = load_json(path)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        errors.extend(validate_ready_record(path, entity, record))
+    return errors
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate local Alan OS JSON records against local JSON schema files."
@@ -158,6 +246,11 @@ def parse_args() -> argparse.Namespace:
         default=Path("schemas"),
         help="Directory containing *.schema.json files.",
     )
+    parser.add_argument(
+        "--ready",
+        action="store_true",
+        help="Also check whether records are ready for real execution.",
+    )
     return parser.parse_args()
 
 
@@ -165,6 +258,8 @@ def main() -> int:
     args = parse_args()
     try:
         errors = validate_records(args.records_dir, args.schema_dir)
+        if not errors and args.ready:
+            errors = validate_readiness(args.records_dir, args.schema_dir)
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
@@ -173,7 +268,10 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
 
-    print(f"validated {args.records_dir}")
+    if args.ready:
+        print(f"ready {args.records_dir}")
+    else:
+        print(f"validated {args.records_dir}")
     return 0
 
 

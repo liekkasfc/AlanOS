@@ -28,9 +28,9 @@ Alan OS is not:
 - a reason to build before validation.
 
 ## Current Sprint
-Sprint 3 Local Validation Workspace.
+Sprint 3.1 Workspace Readiness Patch.
 
-The current sprint makes Alan OS usable for a real daily manual validation workflow using local date folders.
+The current sprint makes Alan OS safer for real daily manual validation by adding persistent Alan Context and execution-readiness validation.
 
 The local workspace creates, validates, and renders prepared records. It does not collect data, browse the web, call external APIs, use a database, create a UI, or turn Alan OS into a news dashboard.
 
@@ -58,6 +58,7 @@ AlanOS/
       manual_validation_loop.md
   engines/
   memory/
+    alan_context.json
   outputs/
   prompts/
     SPRINT-000-ALAN-OS-FOUNDATION.md
@@ -124,9 +125,14 @@ Sprint 3 supports real local daily folders under `data/daily/YYYY-MM-DD/`.
 Use:
 
 - `make init-day DATE=2026-06-29` to create local manual record files,
-- `make validate-day DATE=2026-06-29` to validate local JSON records,
+- `make validate-day DATE=2026-06-29` to structurally validate local JSON records,
+- `make validate-ready DATE=2026-06-29` to check whether the bet and plan are executable,
 - `make render-day DATE=2026-06-29` to render the daily action packet,
 - `make sample-output` to inspect the sample packet,
 - `make test` to run the local test suite.
 
 `scripts/validate_records.py` uses a small local schema validator for the current Alan OS schema subset. No `jsonschema` package is required.
+
+`validate-day` checks local JSON shape, required fields, simple types, enums, and date formats. `validate-ready` adds execution checks: no TODO placeholders, one concrete Today's Bet action, reachable target personas, expected signal, give-up rule, and a positive ValidationPlan target count with a usable script.
+
+`memory/alan_context.json` stores Alan's persistent personal context. A daily folder may include `alan_context.json` to override it for that day; otherwise the daily renderer falls back to persistent memory.
