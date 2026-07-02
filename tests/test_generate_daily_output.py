@@ -54,9 +54,9 @@ def test_daily_output_contains_required_action_fields():
     result = run_generator(SAMPLE_DIR)
 
     assert result.returncode == 0, result.stderr
-    assert "Give-up rule" in result.stdout
+    assert "放弃规则" in result.stdout
     assert "If there are no replies after two follow-ups" in result.stdout
-    assert "Expected signal" in result.stdout
+    assert "预期信号" in result.stdout
     assert "A serious reply, booked call, paid review request" in result.stdout
 
 

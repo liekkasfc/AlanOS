@@ -152,9 +152,9 @@ Sprint 3 支持 `data/daily/YYYY-MM-DD/` 下的真实本地每日记录。
 
 行动后：
 
-- fill `validation_record.json`
-- fill `revenue_signal.json` or `rejection_signal.json`
-- update `alan_memory.json`
+- 填写 `validation_record.json`
+- 填写 `revenue_signal.json` or `rejection_signal.json`
+- 更新 `alan_memory.json`
 - `make validate-result DATE=2026-06-29`
 
 `memory/alan_context.json` 保存 Alan 的长期个人上下文。每日文件夹可以放置 `alan_context.json` 覆盖当天上下文；如果不存在，渲染器会回退到 `memory/alan_context.json`。

@@ -191,81 +191,81 @@ def render_daily_output(
 
     return f"""# Daily Action Packet
 
-Date: {date}
+日期: {date}
 
 ## 今日唯一验证动作
 ID: `{bet['id']}`
 
-Action: {bet['action']}
+动作: {bet['action']}
 
-Target personas: {inline_list(bet.get('target_personas', []))}
+目标人群: {inline_list(bet.get('target_personas', []))}
 
-Timebox: {bet.get('timebox_minutes')} minutes
+时间盒: {bet.get('timebox_minutes')} minutes
 
-Expected signal: {bet['expected_signal']}
+预期信号: {bet['expected_signal']}
 
-Give-up rule: {bet['give_up_rule']}
+放弃规则: {bet['give_up_rule']}
 
-Success criteria: {scalar(bet.get('success_criteria'))}
+成功标准: {scalar(bet.get('success_criteria'))}
 
-Notes: {scalar(bet.get('notes'))}
+备注: {scalar(bet.get('notes'))}
 
 ## 为什么选它
-Opportunity: `{opportunity['id']}` - {opportunity['offer']}
+Opportunity（可变现机会）: `{opportunity['id']}` - {opportunity['offer']}
 
-Customer segment: {opportunity['customer_segment']}
+客户细分: {opportunity['customer_segment']}
 
-Buyer: {opportunity['buyer']}
+买家: {opportunity['buyer']}
 
-Pain: {opportunity['pain']}
+痛点: {opportunity['pain']}
 
-Revenue hypothesis: {opportunity['revenue_hypothesis']}
+收入假设: {opportunity['revenue_hypothesis']}
 
-InformationGap: `{gap['id']}` - {gap['name']}
+InformationGap（信息差）: `{gap['id']}` - {gap['name']}
 
-Why now: {gap['why_now']}
+为什么是现在: {gap['why_now']}
 
-Riskiest assumption: {scalar(opportunity.get('riskiest_assumption'))}
+最大风险假设: {scalar(opportunity.get('riskiest_assumption'))}
 
-Alan constraints:
+Alan 当前约束:
 {context_constraints}
 
 ## 执行计划
 Plan ID: `{scalar(plan.get('id') if plan else None)}`
 
-Hypothesis: {scalar(plan.get('hypothesis') if plan else None)}
+验证假设: {scalar(plan.get('hypothesis') if plan else None)}
 
-Channels: {channels}
+渠道: {channels}
 
-Target count: {scalar(plan.get('target_count') if plan else None)}
+目标数量: {scalar(plan.get('target_count') if plan else None)}
 
-Action steps:
+执行动作:
 {action_steps}
 
-Script:
+话术:
 {scalar(plan.get('script') if plan else None)}
 
-Success threshold: {scalar(plan.get('success_threshold') if plan else None)}
+成功阈值: {scalar(plan.get('success_threshold') if plan else None)}
 
-Plan give-up rule: {scalar(plan.get('give_up_rule') if plan else None)}
+计划放弃规则: {scalar(plan.get('give_up_rule') if plan else None)}
 
-Risk notes: {scalar(plan.get('risk_notes') if plan else None)}
+风险备注: {scalar(plan.get('risk_notes') if plan else None)}
 
 ## 证据与疑点
-Evidence Signals:
+证据信号:
 {evidence}
 
-Window risk: {scalar(gap.get('window_risk'))}
+窗口风险: {scalar(gap.get('window_risk'))}
 
-Lifecycle stage: {scalar(opportunity.get('lifecycle_stage'))}
+生命周期阶段: {scalar(opportunity.get('lifecycle_stage'))}
 
-Known RevenueSignals:
+已知 RevenueSignals（收入信号）:
 {revenue_lines}
 
-Known RejectionSignals:
+已知 RejectionSignals（拒绝信号）:
 {rejection_lines}
 
-AlanMemory next biases:
+AlanMemory 下一次选择偏好:
 {memory_biases}
 
 ## 回填记录提示

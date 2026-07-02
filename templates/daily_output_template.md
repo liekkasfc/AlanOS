@@ -1,82 +1,82 @@
 # Daily Action Packet
 
-Date: `[YYYY-MM-DD]`
+日期: `[YYYY-MM-DD]`
 
 ## 今日唯一验证动作
 ID: `[todays_bet_id]`
 
-Action: `[one action Alan will execute today]`
+动作: `[one action Alan will execute today]`
 
-Target personas: `[reachable buyer or referrer personas]`
+目标人群: `[reachable buyer or referrer personas]`
 
-Timebox: `[minutes]`
+时间盒: `[minutes]`
 
-Expected signal: `[revenue or rejection signal expected from real people]`
+预期信号: `[revenue or rejection signal expected from real people]`
 
-Give-up rule: `[when to stop, retry, pivot, or record rejection]`
+放弃规则: `[when to stop, retry, pivot, or record rejection]`
 
-Success criteria: `[what counts as useful evidence today]`
+成功标准: `[what counts as useful evidence today]`
 
-Notes: `[manual-first guardrail]`
+备注: `[manual-first guardrail]`
 
 ## 为什么选它
-Opportunity: `[opportunity_id] - [offer]`
+Opportunity（可变现机会）: `[opportunity_id] - [offer]`
 
-Customer segment: `[customer segment]`
+客户细分: `[customer segment]`
 
-Buyer: `[buyer or decision maker]`
+买家: `[buyer or decision maker]`
 
-Pain: `[specific pain]`
+痛点: `[specific pain]`
 
-Revenue hypothesis: `[why this could produce money]`
+收入假设: `[why this could produce money]`
 
-InformationGap: `[information_gap_id] - [gap name]`
+InformationGap（信息差）: `[information_gap_id] - [gap name]`
 
-Why now: `[timing reason]`
+为什么是现在: `[timing reason]`
 
-Riskiest assumption: `[one assumption Today's Bet tests]`
+最大风险假设: `[one assumption Today's Bet tests]`
 
-Alan constraints:
+Alan 当前约束:
 - `[constraint that affects execution]`
 
 ## 执行计划
 Plan ID: `[validation_plan_id]`
 
-Hypothesis: `[validation hypothesis]`
+验证假设: `[validation hypothesis]`
 
-Channels: `[manual channels only]`
+渠道: `[manual channels only]`
 
-Target count: `[number of people or actions]`
+目标数量: `[number of people or actions]`
 
-Action steps:
+执行动作:
 - `[step 1]`
 - `[step 2]`
 - `[step 3]`
 
-Script:
+话术:
 `[message, offer, or call script]`
 
-Success threshold: `[minimum useful signal]`
+成功阈值: `[minimum useful signal]`
 
-Plan give-up rule: `[plan-level stop rule]`
+计划放弃规则: `[plan-level stop rule]`
 
-Risk notes: `[what not to build or assume]`
+风险备注: `[what not to build or assume]`
 
 ## 证据与疑点
-Evidence Signals:
+证据信号:
 - `[signal_id: summary]`
 
-Window risk: `[why the gap might close or be false]`
+窗口风险: `[why the gap might close or be false]`
 
-Lifecycle stage: `[Birth, Early, Growth, Peak, Crowded, Commodity, or Dead]`
+生命周期阶段: `[Birth, Early, Growth, Peak, Crowded, Commodity, or Dead]`
 
-Known RevenueSignals:
+已知 RevenueSignals（收入信号）:
 - `[revenue_signal_id (strength): evidence]`
 
-Known RejectionSignals:
+已知 RejectionSignals（拒绝信号）:
 - `[rejection_signal_id (type): lesson]`
 
-AlanMemory next biases:
+AlanMemory 下一次选择偏好:
 - `[future selection bias]`
 
 ## 回填记录提示
