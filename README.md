@@ -28,9 +28,9 @@ Alan OS is not:
 - a reason to build before validation.
 
 ## Current Sprint
-Sprint 3.1 Workspace Readiness Patch.
+Sprint 3.2 Pre/Post Execution Validation Split.
 
-The current sprint makes Alan OS safer for real daily manual validation by adding persistent Alan Context and execution-readiness validation.
+The current sprint makes Alan OS safer for real daily manual validation by splitting validation into before-action readiness and after-action result recording.
 
 The local workspace creates, validates, and renders prepared records. It does not collect data, browse the web, call external APIs, use a database, create a UI, or turn Alan OS into a news dashboard.
 
@@ -136,5 +136,20 @@ Use:
 `scripts/validate_records.py` uses a small local schema validator for the current Alan OS schema subset. No `jsonschema` package is required.
 
 `validate-day` checks local JSON shape, required fields, simple types, enums, and date formats. `validate-links` checks local ID relationships. `validate-ready` checks the pre-execution records for one executable Today's Bet. `validate-result` checks post-execution records after Alan has acted.
+
+## Current Recommended Workflow
+Before execution:
+
+- `make validate-day DATE=2026-06-29`
+- `make validate-links DATE=2026-06-29`
+- `make validate-ready DATE=2026-06-29`
+- `make render-day DATE=2026-06-29`
+
+After execution:
+
+- fill `validation_record.json`
+- fill `revenue_signal.json` or `rejection_signal.json`
+- update `alan_memory.json`
+- `make validate-result DATE=2026-06-29`
 
 `memory/alan_context.json` stores Alan's persistent personal context. A daily folder may include `alan_context.json` to override it for that day; otherwise the daily renderer falls back to persistent memory.
