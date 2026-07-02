@@ -80,13 +80,21 @@ Structural validation checks local JSON files against local `schemas/*.schema.js
 
 If validation fails, fix the reported file and field before rendering the daily output.
 
+Then run relationship validation:
+
+```bash
+python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --links
+```
+
+Relationship validation checks that local record IDs connect correctly: Signals into InformationGaps, InformationGaps into Opportunities, Opportunities into Today's Bet, Today's Bet into the ValidationPlan, and post-execution records back to the ValidationRecord.
+
 Then run execution-readiness validation before Alan acts:
 
 ```bash
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --ready
 ```
 
-Readiness validation fails on TODO placeholders and missing execution-critical fields: Today's Bet action, target personas, expected signal, give-up rule, ValidationPlan target count, script, and action steps. If post-execution placeholder files contain TODO values, either complete them after execution or remove them from the folder before a pre-execution readiness check.
+Readiness validation is pre-execution only. It checks `signal.json`, `information_gap.json`, `opportunity.json`, `todays_bet.json`, and `validation_plan.json`. It fails on TODO placeholders and missing execution-critical fields: Today's Bet action, target personas, expected signal, give-up rule, ValidationPlan target count, script, and action steps. It ignores post-execution placeholders in `validation_record.json`, `revenue_signal.json`, `rejection_signal.json`, and `alan_memory.json`.
 
 ## Step 4: Generate Daily Output
 Render one daily action packet:
@@ -117,6 +125,14 @@ After execution, update:
 
 Silence is data. Rejection is data. Record it before changing the idea.
 
+Then validate the recorded result:
+
+```bash
+python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --result
+```
+
+Result validation is post-execution only. It checks `validation_record.json`, `revenue_signal.json`, `rejection_signal.json`, and `alan_memory.json`. It fails when the execution record still has TODO values, no actions taken, no outcome, no lesson, no time spent, no RevenueSignal or RejectionSignal reference, or AlanMemory has no next bias.
+
 ## Step 7: Update AlanMemory
 Update `alan_memory.json` with:
 
@@ -136,13 +152,17 @@ The Makefile wraps the same local commands:
 ```bash
 make init-day DATE=2026-06-29
 make validate-day DATE=2026-06-29
+make validate-links DATE=2026-06-29
 make validate-ready DATE=2026-06-29
+make validate-result DATE=2026-06-29
 make render-day DATE=2026-06-29
 make sample-output
 make test
 ```
 
-`make validate-day` is structural validation. `make validate-ready` is execution-readiness validation. Run both before rendering a real daily packet.
+`make validate-day` is structural validation. `make validate-links` is relationship validation. `make validate-ready` is before-action execution readiness. `make validate-result` is after-action result recording validation.
+
+Before action, run `validate-day`, `validate-links`, and `validate-ready`. After action, update the result files and run `validate-result`.
 
 ## What Not To Do
 - Do not build collectors.

@@ -29,6 +29,24 @@ def run_validate_ready(records_dir: Path) -> subprocess.CompletedProcess[str]:
     )
 
 
+def run_validate_result(records_dir: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(VALIDATE_SCRIPT), "--records-dir", str(records_dir), "--result"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def run_validate_links(records_dir: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(VALIDATE_SCRIPT), "--records-dir", str(records_dir), "--links"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
 def copy_sample_dir(tmp_path: Path) -> Path:
     copied = tmp_path / "sample"
     shutil.copytree(SAMPLE_DIR, copied)
@@ -114,3 +132,50 @@ def test_validate_records_ready_fails_on_empty_target_personas(tmp_path):
     assert result.returncode != 0
     assert str(todays_bet_path) in result.stderr
     assert "target_personas" in result.stderr
+
+
+def test_validate_records_ready_ignores_post_execution_placeholders(tmp_path):
+    sample_dir = copy_sample_dir(tmp_path)
+    validation_record_path = sample_dir / "validation_record.sample.json"
+    validation_record = json.loads(validation_record_path.read_text())
+    validation_record["outcome"] = "TODO: record this after execution"
+    validation_record_path.write_text(json.dumps(validation_record, indent=2) + "\n")
+
+    result = run_validate_ready(sample_dir)
+
+    assert result.returncode == 0, result.stderr
+    assert "ready" in result.stdout
+
+
+def test_validate_records_result_fails_before_execution_placeholders(tmp_path):
+    day_dir = init_day(tmp_path / "daily")
+
+    result = run_validate_result(day_dir)
+
+    assert result.returncode != 0
+    assert str(day_dir / "validation_record.json") in result.stderr
+    assert "actions_taken" in result.stderr
+    assert "outcome" in result.stderr
+    assert "time_spent_minutes" in result.stderr
+
+
+def test_validate_records_links_fails_on_broken_opportunity_id(tmp_path):
+    sample_dir = copy_sample_dir(tmp_path)
+    todays_bet_path = sample_dir / "todays_bet.sample.json"
+    todays_bet = json.loads(todays_bet_path.read_text())
+    todays_bet["opportunity_id"] = "missing_opp"
+    todays_bet_path.write_text(json.dumps(todays_bet, indent=2) + "\n")
+
+    result = run_validate_links(sample_dir)
+
+    assert result.returncode != 0
+    assert str(todays_bet_path) in result.stderr
+    assert "opportunity_id" in result.stderr
+    assert "missing_opp" in result.stderr
+
+
+def test_validate_records_links_passes_sample_records():
+    result = run_validate_links(SAMPLE_DIR)
+
+    assert result.returncode == 0, result.stderr
+    assert "links valid" in result.stdout

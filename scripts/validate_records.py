@@ -17,6 +17,21 @@ PLACEHOLDER_RE = re.compile(
     r"^\s*$|\b(TODO|TBD|PLACEHOLDER|REPLACE ME|FILL ME|FILL IN)\b",
     re.IGNORECASE,
 )
+PRE_EXECUTION_ENTITIES = {
+    "signal",
+    "information_gap",
+    "opportunity",
+    "todays_bet",
+    "validation_plan",
+}
+POST_EXECUTION_ENTITIES = {
+    "validation_record",
+    "revenue_signal",
+    "rejection_signal",
+    "alan_memory",
+}
+LINK_ENTITIES = PRE_EXECUTION_ENTITIES | POST_EXECUTION_ENTITIES
+RecordEntry = tuple[Path, dict[str, Any]]
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -128,7 +143,11 @@ def validate_record(path: Path, record: dict[str, Any], schema: dict[str, Any]) 
     return [f"{path}: {error}" for error in errors]
 
 
-def validate_records(records_dir: Path, schema_dir: Path) -> list[str]:
+def validate_records(
+    records_dir: Path,
+    schema_dir: Path,
+    entity_filter: set[str] | None = None,
+) -> list[str]:
     if not records_dir.exists() or not records_dir.is_dir():
         raise ValueError(f"records directory not found: {records_dir}")
     schemas = load_schemas(schema_dir)
@@ -140,7 +159,10 @@ def validate_records(records_dir: Path, schema_dir: Path) -> list[str]:
     for path in json_paths:
         entity = infer_entity(path, schemas)
         if entity is None:
-            errors.append(f"{path}: no matching schema found")
+            if entity_filter is None:
+                errors.append(f"{path}: no matching schema found")
+            continue
+        if entity_filter is not None and entity not in entity_filter:
             continue
         try:
             record = load_json(path)
@@ -149,6 +171,29 @@ def validate_records(records_dir: Path, schema_dir: Path) -> list[str]:
             continue
         errors.extend(validate_record(path, record, schemas[entity]))
     return errors
+
+
+def load_records_by_entity(
+    records_dir: Path,
+    schema_dir: Path,
+    entity_filter: set[str] | None = None,
+) -> dict[str, list[RecordEntry]]:
+    if not records_dir.exists() or not records_dir.is_dir():
+        raise ValueError(f"records directory not found: {records_dir}")
+    schemas = load_schemas(schema_dir)
+    json_paths = sorted(records_dir.glob("*.json"))
+    if not json_paths:
+        raise ValueError(f"no JSON records found in {records_dir}")
+
+    records: dict[str, list[RecordEntry]] = {}
+    for path in json_paths:
+        entity = infer_entity(path, schemas)
+        if entity is None:
+            continue
+        if entity_filter is not None and entity not in entity_filter:
+            continue
+        records.setdefault(entity, []).append((path, load_json(path)))
+    return records
 
 
 def contains_todo(value: Any) -> bool:
@@ -214,24 +259,144 @@ def validate_ready_record(path: Path, entity: str, record: dict[str, Any]) -> li
 
 
 def validate_readiness(records_dir: Path, schema_dir: Path) -> list[str]:
-    if not records_dir.exists() or not records_dir.is_dir():
-        raise ValueError(f"records directory not found: {records_dir}")
-    schemas = load_schemas(schema_dir)
     errors: list[str] = []
-    json_paths = sorted(records_dir.glob("*.json"))
-    if not json_paths:
-        raise ValueError(f"no JSON records found in {records_dir}")
+    for entity, entries in load_records_by_entity(records_dir, schema_dir, PRE_EXECUTION_ENTITIES).items():
+        for path, record in entries:
+            errors.extend(validate_ready_record(path, entity, record))
+    return errors
 
-    for path in json_paths:
-        entity = infer_entity(path, schemas)
-        if entity is None:
-            continue
-        try:
-            record = load_json(path)
-        except ValueError as exc:
-            errors.append(str(exc))
-            continue
-        errors.extend(validate_ready_record(path, entity, record))
+
+def validate_result_record(path: Path, entity: str, record: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    for field, value in iter_string_fields(record):
+        if contains_todo(value):
+            add_ready_error(errors, path, field, "contains TODO placeholder")
+
+    if entity == "validation_record":
+        actions_taken = record.get("actions_taken")
+        if (
+            not isinstance(actions_taken, list)
+            or not actions_taken
+            or any(is_placeholder(action) for action in actions_taken)
+        ):
+            add_ready_error(errors, path, "actions_taken", "must record at least one executed action")
+        if is_placeholder(record.get("outcome")):
+            add_ready_error(errors, path, "outcome", "must be filled after execution")
+        if is_placeholder(record.get("lesson")):
+            add_ready_error(errors, path, "lesson", "must be filled after execution")
+        time_spent = record.get("time_spent_minutes")
+        if not isinstance(time_spent, int) or isinstance(time_spent, bool) or time_spent <= 0:
+            add_ready_error(errors, path, "time_spent_minutes", "must be greater than 0")
+        revenue_signal_ids = record.get("revenue_signal_ids")
+        rejection_signal_ids = record.get("rejection_signal_ids")
+        if not isinstance(revenue_signal_ids, list):
+            revenue_signal_ids = []
+        if not isinstance(rejection_signal_ids, list):
+            rejection_signal_ids = []
+        if not revenue_signal_ids and not rejection_signal_ids:
+            add_ready_error(
+                errors,
+                path,
+                "revenue_signal_ids/rejection_signal_ids",
+                "must include at least one recorded signal",
+            )
+
+    if entity == "alan_memory":
+        next_biases = record.get("next_biases")
+        if (
+            not isinstance(next_biases, list)
+            or not next_biases
+            or any(is_placeholder(bias) for bias in next_biases)
+        ):
+            add_ready_error(errors, path, "next_biases", "must include at least one future selection bias")
+    return errors
+
+
+def validate_result(records_dir: Path, schema_dir: Path) -> list[str]:
+    errors: list[str] = []
+    for entity, entries in load_records_by_entity(records_dir, schema_dir, POST_EXECUTION_ENTITIES).items():
+        for path, record in entries:
+            errors.extend(validate_result_record(path, entity, record))
+    return errors
+
+
+def record_id(record: dict[str, Any]) -> str | None:
+    value = record.get("id")
+    return value if isinstance(value, str) and value else None
+
+
+def build_id_index(records: dict[str, list[RecordEntry]]) -> dict[str, set[str]]:
+    indexed: dict[str, set[str]] = {}
+    for entity, entries in records.items():
+        ids = {record_id(record) for _, record in entries}
+        indexed[entity] = {value for value in ids if value is not None}
+    return indexed
+
+
+def add_link_error(
+    errors: list[str],
+    path: Path,
+    field: str,
+    target_entity: str,
+    target_id: Any,
+) -> None:
+    errors.append(f"{path}: {field}: referenced {target_entity} not found: {target_id!r}")
+
+
+def require_link(
+    errors: list[str],
+    path: Path,
+    record: dict[str, Any],
+    field: str,
+    target_entity: str,
+    ids_by_entity: dict[str, set[str]],
+) -> None:
+    target_id = record.get(field)
+    if not isinstance(target_id, str) or target_id not in ids_by_entity.get(target_entity, set()):
+        add_link_error(errors, path, field, target_entity, target_id)
+
+
+def require_link_list(
+    errors: list[str],
+    path: Path,
+    record: dict[str, Any],
+    field: str,
+    target_entity: str,
+    ids_by_entity: dict[str, set[str]],
+) -> None:
+    target_ids = record.get(field, [])
+    if target_ids is None:
+        return
+    if not isinstance(target_ids, list):
+        add_link_error(errors, path, field, target_entity, target_ids)
+        return
+    for target_id in target_ids:
+        if not isinstance(target_id, str) or target_id not in ids_by_entity.get(target_entity, set()):
+            add_link_error(errors, path, field, target_entity, target_id)
+
+
+def validate_links(records_dir: Path, schema_dir: Path) -> list[str]:
+    records = load_records_by_entity(records_dir, schema_dir, LINK_ENTITIES)
+    ids_by_entity = build_id_index(records)
+    errors: list[str] = []
+
+    for path, record in records.get("information_gap", []):
+        require_link_list(errors, path, record, "evidence_signal_ids", "signal", ids_by_entity)
+    for path, record in records.get("opportunity", []):
+        require_link(errors, path, record, "information_gap_id", "information_gap", ids_by_entity)
+    for path, record in records.get("todays_bet", []):
+        require_link(errors, path, record, "opportunity_id", "opportunity", ids_by_entity)
+    for path, record in records.get("validation_plan", []):
+        require_link(errors, path, record, "todays_bet_id", "todays_bet", ids_by_entity)
+        require_link(errors, path, record, "opportunity_id", "opportunity", ids_by_entity)
+    for path, record in records.get("validation_record", []):
+        require_link(errors, path, record, "validation_plan_id", "validation_plan", ids_by_entity)
+    for path, record in records.get("revenue_signal", []):
+        require_link(errors, path, record, "validation_record_id", "validation_record", ids_by_entity)
+    for path, record in records.get("rejection_signal", []):
+        require_link(errors, path, record, "validation_record_id", "validation_record", ids_by_entity)
+    for path, record in records.get("alan_memory", []):
+        require_link_list(errors, path, record, "weekly_revenue_signals", "revenue_signal", ids_by_entity)
     return errors
 
 
@@ -249,17 +414,58 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--ready",
         action="store_true",
-        help="Also check whether records are ready for real execution.",
+        help="Check pre-execution records for an executable Today's Bet.",
+    )
+    parser.add_argument(
+        "--result",
+        action="store_true",
+        help="Check post-execution records for a recorded validation result.",
+    )
+    parser.add_argument(
+        "--links",
+        action="store_true",
+        help="Check relationships between local records.",
     )
     return parser.parse_args()
+
+
+def selected_entity_filter(args: argparse.Namespace) -> set[str] | None:
+    if not args.ready and not args.result and not args.links:
+        return None
+
+    selected: set[str] = set()
+    if args.ready:
+        selected.update(PRE_EXECUTION_ENTITIES)
+    if args.result:
+        selected.update(POST_EXECUTION_ENTITIES)
+    if args.links:
+        selected.update(LINK_ENTITIES)
+    return selected
+
+
+def success_message(args: argparse.Namespace, records_dir: Path) -> str:
+    messages: list[str] = []
+    if args.links:
+        messages.append("links valid")
+    if args.ready:
+        messages.append("ready")
+    if args.result:
+        messages.append("result valid")
+    if not messages:
+        return f"validated {records_dir}"
+    return f"{', '.join(messages)} {records_dir}"
 
 
 def main() -> int:
     args = parse_args()
     try:
-        errors = validate_records(args.records_dir, args.schema_dir)
+        errors = validate_records(args.records_dir, args.schema_dir, selected_entity_filter(args))
+        if not errors and args.links:
+            errors.extend(validate_links(args.records_dir, args.schema_dir))
         if not errors and args.ready:
-            errors = validate_readiness(args.records_dir, args.schema_dir)
+            errors.extend(validate_readiness(args.records_dir, args.schema_dir))
+        if not errors and args.result:
+            errors.extend(validate_result(args.records_dir, args.schema_dir))
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
@@ -268,10 +474,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
 
-    if args.ready:
-        print(f"ready {args.records_dir}")
-    else:
-        print(f"validated {args.records_dir}")
+    print(success_message(args, args.records_dir))
     return 0
 
 

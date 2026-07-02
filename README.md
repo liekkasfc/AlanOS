@@ -126,13 +126,15 @@ Use:
 
 - `make init-day DATE=2026-06-29` to create local manual record files,
 - `make validate-day DATE=2026-06-29` to structurally validate local JSON records,
+- `make validate-links DATE=2026-06-29` to validate relationships between local records,
 - `make validate-ready DATE=2026-06-29` to check whether the bet and plan are executable,
+- `make validate-result DATE=2026-06-29` to check whether execution results were recorded,
 - `make render-day DATE=2026-06-29` to render the daily action packet,
 - `make sample-output` to inspect the sample packet,
 - `make test` to run the local test suite.
 
 `scripts/validate_records.py` uses a small local schema validator for the current Alan OS schema subset. No `jsonschema` package is required.
 
-`validate-day` checks local JSON shape, required fields, simple types, enums, and date formats. `validate-ready` adds execution checks: no TODO placeholders, one concrete Today's Bet action, reachable target personas, expected signal, give-up rule, and a positive ValidationPlan target count with a usable script.
+`validate-day` checks local JSON shape, required fields, simple types, enums, and date formats. `validate-links` checks local ID relationships. `validate-ready` checks the pre-execution records for one executable Today's Bet. `validate-result` checks post-execution records after Alan has acted.
 
 `memory/alan_context.json` stores Alan's persistent personal context. A daily folder may include `alan_context.json` to override it for that day; otherwise the daily renderer falls back to persistent memory.
