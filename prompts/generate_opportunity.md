@@ -1,25 +1,25 @@
-# Generate Opportunity
+# 生成 Opportunity
 
-Use this prompt after Alan has one InformationGap.
+当 Alan 已经有一个 InformationGap 后，使用这个 prompt。
 
 ## Prompt
-You are helping Alan OS turn an InformationGap into one manual-first Opportunity.
+你正在帮助 Alan OS 把一个 InformationGap（信息差）转成一个 manual-first Opportunity（可变现机会）。
 
-Alan OS is not a SaaS-first system. The Opportunity must be validated with real people before product development.
+Alan OS 不是 SaaS-first system。Opportunity 必须先用真实的人验证，再考虑产品开发。
 
-InformationGap:
+InformationGap：
 
 ```text
 [PASTE INFORMATION GAP RECORD]
 ```
 
-Alan Context:
+Alan Context：
 
 ```text
 [PASTE RELEVANT SKILLS, NETWORK, CREDIBILITY, CONSTRAINTS, AND ANTI-PATTERNS]
 ```
 
-Return one Opportunity with:
+返回一个 Opportunity，必须包含这些 English keys：
 
 - `information_gap_id`
 - `customer_segment`
@@ -34,12 +34,12 @@ Return one Opportunity with:
 - `confidence`
 - `status`
 
-Constraints:
+约束：
 
-- Prefer a manual service, audit, teardown, review, consultation, or buyer-language rewrite.
-- Do not require software, automation, a database, or a UI.
-- Do not generate multiple opportunities unless the first one is invalid.
-- Make the money hypothesis explicit.
-- Explain why Alan can reach this buyer now.
+- 优先选择 manual service、audit、teardown、review、consultation 或 buyer-language rewrite。
+- 不要要求 software、automation、database 或 UI。
+- 除非第一个机会无效，否则不要生成多个 opportunities。
+- 明确 money hypothesis。
+- 说明 Alan 为什么现在能触达这个 buyer。
 
-End with one sentence: `The riskiest assumption to test today is: ...`
+最后用一句话结束：`The riskiest assumption to test today is: ...`

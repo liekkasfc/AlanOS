@@ -38,7 +38,7 @@ def test_daily_output_contains_exactly_one_todays_bet_section():
     result = run_generator(SAMPLE_DIR)
 
     assert result.returncode == 0, result.stderr
-    assert result.stdout.count("## Today's Bet") == 1
+    assert result.stdout.count("## 今日唯一验证动作") == 1
     assert "bet_sample_001" in result.stdout
 
 
@@ -46,7 +46,7 @@ def test_daily_output_supports_records_dir_alias():
     result = run_generator_with_records_dir(SAMPLE_DIR)
 
     assert result.returncode == 0, result.stderr
-    assert result.stdout.count("## Today's Bet") == 1
+    assert result.stdout.count("## 今日唯一验证动作") == 1
     assert "bet_sample_001" in result.stdout
 
 
@@ -98,9 +98,9 @@ def test_daily_output_contains_validation_plan_and_recording_prompts():
     result = run_generator(SAMPLE_DIR)
 
     assert result.returncode == 0, result.stderr
-    assert "## Validation Plan" in result.stdout
+    assert "## 执行计划" in result.stdout
     assert "Founders with active enterprise deals will discuss or pay" in result.stdout
-    assert "## Recording Prompts" in result.stdout
+    assert "## 回填记录提示" in result.stdout
     assert "Record RevenueSignals" in result.stdout
     assert "Record RejectionSignals" in result.stdout
 

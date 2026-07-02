@@ -1,22 +1,22 @@
-# Local Validation Workspace Runbook
+# 本地验证 Workspace Runbook
 
-## Purpose
-This runbook explains how Alan runs a real daily manual validation workflow using local files.
+## 目的
+这个 runbook 说明 Alan 如何用本地文件跑真实的每日手动验证工作流。
 
-The workspace exists to support the revenue validation loop:
+workspace 支持 revenue validation loop：
 
-Signal -> InformationGap -> Opportunity -> Today's Bet -> ValidationPlan -> ValidationRecord -> RevenueSignal/RejectionSignal -> AlanMemory.
+Signal（信号 / 原始线索） -> InformationGap（信息差） -> Opportunity（可变现机会） -> Today's Bet（今日唯一验证动作） -> ValidationPlan（验证计划） -> ValidationRecord（验证记录） -> RevenueSignal（收入信号）/RejectionSignal（拒绝信号） -> AlanMemory（Alan 机会记忆）。
 
-It does not collect data, browse the web, call external APIs, use a database, create a UI, or introduce SaaS assumptions.
+它不收集数据、不浏览网页、不调用外部 API、不使用数据库、不创建 UI，也不引入 SaaS assumptions。
 
 ## Daily Folder
-Create one folder per day:
+每天创建一个文件夹：
 
 ```text
 data/daily/YYYY-MM-DD/
 ```
 
-Each folder contains local manual records:
+每个文件夹包含本地手动 records：
 
 - `signal.json`
 - `information_gap.json`
@@ -28,38 +28,38 @@ Each folder contains local manual records:
 - `rejection_signal.json`
 - `alan_memory.json`
 
-`revenue_signal.json` and `rejection_signal.json` are post-execution records. The initializer keeps placeholder files for backward compatibility, but they are optional until execution produces real evidence.
+`revenue_signal.json` 和 `rejection_signal.json` 是 post-execution records。initializer 为了兼容性会保留 placeholder files，但它们在真实执行产生证据前是可选的。
 
 ## Alan Context
-Alan's persistent personal context lives at:
+Alan 的长期个人上下文位于：
 
 ```text
 memory/alan_context.json
 ```
 
-Use it for stable constraints such as limited daily execution time, cashflow pressure, manual validation preference, avoiding heavy build before buyer signal, and Alan's strongest fit areas.
+用它保存稳定约束，例如每日执行时间有限、现金流压力、偏好手动验证、buyer signal 前避免 heavy build，以及 Alan 最强的适配方向。
 
-If a daily folder contains `alan_context.json`, the daily renderer uses that file first. If not, it falls back to `memory/alan_context.json`. If neither file exists, the output says `No Alan Context recorded.`
+如果 daily folder 中存在 `alan_context.json`，daily renderer 会优先使用这个文件。否则回退到 `memory/alan_context.json`。如果两个都不存在，输出会显示 `No Alan Context recorded.`
 
-## Step 1: Create a Date Folder
-Create blank manual templates:
+## Step 1: 创建日期文件夹
+创建空白手动 templates：
 
 ```bash
 python3 scripts/init_daily_workspace.py --date 2026-06-29
 ```
 
-Or create the folder from sample records as examples:
+或从 sample records 创建示例文件夹：
 
 ```bash
 python3 scripts/init_daily_workspace.py --date 2026-06-29 --from-sample
 ```
 
-The `--from-sample` option is for learning the shape only. It does not collect anything.
+`--from-sample` 只用于学习 record shape。它不会收集任何东西。
 
-## Step 2: Prepare Local JSON Records Manually
-Edit the files inside `data/daily/YYYY-MM-DD/`.
+## Step 2: 手动准备本地 JSON Records
+编辑 `data/daily/YYYY-MM-DD/` 中的文件。
 
-Start with:
+先从这些文件开始：
 
 1. `signal.json`
 2. `information_gap.json`
@@ -67,87 +67,87 @@ Start with:
 4. `todays_bet.json`
 5. `validation_plan.json`
 
-Keep the records small. Alan should write only enough to choose one executable Today's Bet.
+保持 records 简短。Alan 只需要写到足以选择一个可执行 Today's Bet。
 
-## Step 3: Validate Records
-Run local schema validation:
+## Step 3: 验证 Records
+运行本地结构验证：
 
 ```bash
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29
 ```
 
-Structural validation checks local JSON files against local `schemas/*.schema.json` files. It checks required fields, simple types, enums, and date formats. It does not use a database or external API.
+Structural validation 会用本地 `schemas/*.schema.json` 检查 required fields、简单类型、enums 和日期格式。它不使用 database 或 external API。
 
-If validation fails, fix the reported file and field before rendering the daily output.
+如果验证失败，先修复报错中的 file 和 field，再渲染 daily output。
 
-Then run relationship validation:
+然后运行关系验证：
 
 ```bash
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --links
 ```
 
-Relationship validation checks that local record IDs connect correctly: Signals into InformationGaps, InformationGaps into Opportunities, Opportunities into Today's Bet, Today's Bet into the ValidationPlan, and post-execution records back to the ValidationRecord.
+Relationship validation 检查本地 record IDs 是否连对：Signals 到 InformationGaps，InformationGaps 到 Opportunities，Opportunities 到 Today's Bet，Today's Bet 到 ValidationPlan，post-execution records 回连 ValidationRecord。
 
-Then run execution-readiness validation before Alan acts:
+行动前运行 execution-readiness validation：
 
 ```bash
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --ready
 ```
 
-Readiness validation is pre-execution only. It checks `signal.json`, `information_gap.json`, `opportunity.json`, `todays_bet.json`, and `validation_plan.json`. It fails on TODO placeholders and missing execution-critical fields: Today's Bet action, target personas, expected signal, give-up rule, ValidationPlan target count, script, and action steps. It ignores post-execution placeholders in `validation_record.json`, `revenue_signal.json`, `rejection_signal.json`, and `alan_memory.json`.
+Readiness validation 只检查 pre-execution records：`signal.json`、`information_gap.json`、`opportunity.json`、`todays_bet.json`、`validation_plan.json`。它会在 TODO placeholders 或执行关键字段缺失时失败：Today's Bet action、target personas、expected signal、give-up rule、ValidationPlan target count、script 和 action steps。它会忽略 `validation_record.json`、`revenue_signal.json`、`rejection_signal.json` 和 `alan_memory.json` 中的 post-execution placeholders。
 
-## Step 4: Generate Daily Output
-Render one daily action packet:
+## Step 4: 生成 Daily Output
+渲染一个 daily action packet：
 
 ```bash
 python3 scripts/generate_daily_output.py --records-dir data/daily/2026-06-29 --date 2026-06-29
 ```
 
-The renderer prints Markdown to stdout. It fails if more than one `planned` or `active` Today's Bet exists for the same date.
+renderer 会把 Markdown 打印到 stdout。如果同一天存在多个 `planned` 或 `active` Today's Bet，它会失败。
 
-## Step 5: Execute Today's Bet
-Do the action in the real world:
+## Step 5: 执行 Today's Bet
+在真实世界执行动作：
 
-- send the messages,
-- make the offer,
-- ask the buyer,
-- request the call,
-- test the paid manual service.
+- 发消息；
+- 提出 offer；
+- 询问买家；
+- 请求 call；
+- 测试付费手动服务。
 
-Do not keep researching once the action is clear.
+动作清楚后，不要继续研究。
 
-## Step 6: Record Validation Result
-After execution, update:
+## Step 6: 记录 Validation Result
+执行后更新：
 
 - `validation_record.json`
-- `revenue_signal.json` when a buyer moves closer to payment
-- `rejection_signal.json` when silence, objection, timing, budget, or wrong-buyer evidence appears
+- 有买家更接近付款时，更新 `revenue_signal.json`
+- 出现沉默、异议、时机、预算或 wrong-buyer 证据时，更新 `rejection_signal.json`
 
-Silence is data. Rejection is data. Record it before changing the idea.
+沉默是数据。拒绝是数据。改变 idea 前先记录。
 
-Then validate the recorded result:
+然后验证已记录的结果：
 
 ```bash
 python3 scripts/validate_records.py --records-dir data/daily/2026-06-29 --result
 ```
 
-Result validation is post-execution only. It checks `validation_record.json`, `revenue_signal.json`, `rejection_signal.json`, and `alan_memory.json`. It fails when the execution record still has TODO values, no actions taken, no outcome, no lesson, no time spent, no RevenueSignal or RejectionSignal reference, or AlanMemory has no next bias.
+Result validation 只检查 post-execution records：`validation_record.json`、`revenue_signal.json`、`rejection_signal.json`、`alan_memory.json`。如果 execution record 仍有 TODO、没有 actions taken、没有 outcome、没有 lesson、没有 time spent、没有 RevenueSignal 或 RejectionSignal reference，或 AlanMemory 没有 next bias，它会失败。
 
-## Step 7: Update AlanMemory
-Update `alan_memory.json` with:
+## Step 7: 更新 AlanMemory
+更新 `alan_memory.json`：
 
-- validated patterns,
-- rejected patterns,
-- strong segments,
-- weak segments,
-- MoneyDNA updates,
-- weekly revenue signals,
-- next biases.
+- validated patterns；
+- rejected patterns；
+- strong segments；
+- weak segments；
+- MoneyDNA updates；
+- weekly revenue signals；
+- next biases。
 
-The memory update should change the next Today's Bet.
+Memory update 应该改变下一次 Today's Bet。
 
 ## Make Commands
-The Makefile wraps the same local commands:
+Makefile 包装了同样的本地命令：
 
 ```bash
 make init-day DATE=2026-06-29
@@ -160,16 +160,16 @@ make sample-output
 make test
 ```
 
-`make validate-day` is structural validation. `make validate-links` is relationship validation. `make validate-ready` is before-action execution readiness. `make validate-result` is after-action result recording validation.
+`make validate-day` 是结构验证。`make validate-links` 是关系验证。`make validate-ready` 是行动前执行准备验证。`make validate-result` 是行动后结果记录验证。
 
-Before action, run `validate-day`, `validate-links`, and `validate-ready`. After action, update the result files and run `validate-result`.
+行动前运行 `validate-day`、`validate-links`、`validate-ready`。行动后更新结果文件并运行 `validate-result`。
 
-## What Not To Do
-- Do not build collectors.
-- Do not browse the web automatically.
-- Do not call external APIs.
-- Do not use a database.
-- Do not build a UI.
-- Do not create SaaS assumptions.
-- Do not generate multiple Today's Bets.
-- Do not turn Alan OS into a news dashboard.
+## 不要做什么
+- 不要构建 collectors。
+- 不要自动浏览网页。
+- 不要调用 external APIs。
+- 不要使用 database。
+- 不要构建 UI。
+- 不要创建 SaaS assumptions。
+- 不要生成多个 Today's Bets。
+- 不要把 Alan OS 变成新闻看板。

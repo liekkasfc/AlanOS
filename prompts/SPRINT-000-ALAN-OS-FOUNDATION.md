@@ -1,32 +1,30 @@
 # Alan OS Sprint 0: Foundation RFC Documents
 
-You are working on a new branch for Alan OS.
+你正在为 Alan OS 的 foundation sprint 工作。
 
-Alan OS is NOT a news aggregator, NOT GitHub Trending, NOT Product Hunt daily, and NOT a SaaS-first startup project.
+Alan OS 不是 news aggregator，不是 GitHub Trending，不是 Product Hunt daily，也不是 SaaS-first startup project。
 
-Alan OS is a Personal Revenue Operating System.
-
-Its purpose is to help Alan continuously discover information gaps, judge whether they are worth betting the next 30 days on, generate one executable money validation action per day, record results, and improve future decisions.
+Alan OS 是 Personal Revenue Operating System。它的目标是帮助 Alan 持续发现信息差，判断它们是否值得下注，把它们转成每天一个可执行的收入验证动作，记录结果，并改进未来判断。
 
 ## Core Mission
 
-Help Alan build a lifelong ability to:
+帮助 Alan 建立长期能力：
 
-1. discover information gaps earlier than others,
-2. convert them into concrete money-making hypotheses,
-3. validate them with real people before building products,
-4. record execution results,
-5. learn Alan's personal opportunity pattern over time.
+1. 比别人更早发现 information gaps；
+2. 把它们转成具体 money-making hypotheses；
+3. 在构建产品前用真实的人验证；
+4. 记录 execution results；
+5. 学习 Alan 的个人 opportunity pattern。
 
 ## Important Design Rule
 
-Do NOT write business implementation code in this sprint.
+本 sprint 不写 business implementation code。
 
-Only create foundational project documents.
+只创建 foundational project documents。
 
 ## Files to create
 
-Create the following files:
+创建以下文件：
 
 1. docs/rfc/RFC-0000-FOUNDATION.md
 2. docs/rfc/RFC-0001-VISION.md
@@ -40,38 +38,36 @@ Create the following files:
 
 ### RFC-0000-FOUNDATION.md
 
-Describe the foundation of Alan OS.
+说明 Alan OS 的基础：
 
-Must include:
-
-- Why Alan OS exists.
-- What problem it solves for Alan.
-- Why this is not a normal product.
-- Why it is a personal second-income operating system.
-- Difference between Opportunity Radar and Alan OS.
-- Core design philosophy:
-  - reduce uncertainty,
-  - increase validated income,
-  - avoid endless research,
-  - force small execution,
-  - learn from rejection.
-- Non-goals:
-  - not a news system,
-  - not a hot list,
-  - not a SaaS-first system,
-  - not a passive inspiration database.
+- Alan OS 为什么存在；
+- 它为 Alan 解决什么问题；
+- 为什么它不是普通产品；
+- 为什么它是 personal second-income operating system；
+- Opportunity Radar 和 Alan OS 的区别；
+- core design philosophy：
+  - reduce uncertainty；
+  - increase validated income；
+  - avoid endless research；
+  - force small execution；
+  - learn from rejection；
+- non-goals：
+  - not a news system；
+  - not a hot list；
+  - not a SaaS-first system；
+  - not a passive inspiration database。
 
 ### RFC-0001-VISION.md
 
-Describe the mission, vision, principles, and long-term direction.
+说明 mission、vision、principles 和 long-term direction。
 
-Must include:
+必须包含：
 
-- One sentence description.
-- English mission.
-- Chinese mission.
-- Vision for 1 year, 3 years, 10 years.
-- Product principles:
+- one sentence description；
+- English mission；
+- Chinese mission；
+- 1 year、3 years、10 years vision；
+- product principles：
   1. Action over information.
   2. Revenue signal over popularity.
   3. One Today's Bet per day.
@@ -80,16 +76,14 @@ Must include:
   6. No customer, no opportunity.
   7. No give-up rule, no execution.
   8. Rejection is an asset.
-- North Star Metric:
-  weekly validated revenue signal.
-- System slogan:
-  "Don't chase trends. Own the gap."
+- North Star Metric：weekly validated revenue signal；
+- system slogan："Don't chase trends. Own the gap."
 
 ### RFC-0002-DOMAIN_MODEL.md
 
-Define the domain model.
+定义 domain model。
 
-Must include these core entities:
+必须包含这些 core entities：
 
 1. Signal
 2. InformationGap
@@ -104,23 +98,23 @@ Must include these core entities:
 11. OpportunityLifecycle
 12. AlanMemory
 
-For each entity include:
+每个 entity 包含：
 
-- Definition
-- Purpose
-- Key fields
-- Example
-- Relationship to other entities
+- Definition；
+- Purpose；
+- Key fields；
+- Example；
+- Relationship to other entities。
 
-Important concepts:
+重要概念：
 
-- Information Gap is not a tool, project, or news item.
-- Information Gap is a temporary asymmetric advantage.
-- Opportunity is a monetizable interpretation of an Information Gap.
-- Today's Bet is the one action Alan should do today.
-- OpportunityGenome explains why an opportunity can make money.
-- MoneyDNA explains why an opportunity fits or does not fit Alan.
-- OpportunityLifecycle includes:
+- InformationGap 不是 tool、project 或 news item。
+- InformationGap 是 temporary asymmetric advantage。
+- Opportunity 是 InformationGap 的 monetizable interpretation。
+- Today's Bet 是 Alan 今天应该做的唯一动作。
+- OpportunityGenome 解释为什么一个 opportunity 能赚钱。
+- MoneyDNA 解释一个 opportunity 为什么适合或不适合 Alan。
+- OpportunityLifecycle 包括：
   - Birth
   - Early
   - Growth
@@ -131,9 +125,9 @@ Important concepts:
 
 ### RFC-0003-WORKFLOW.md
 
-Define the full workflow.
+定义完整 workflow。
 
-Must include:
+必须包含：
 
 1. Discover
 2. Normalize
@@ -149,27 +143,27 @@ Must include:
 12. Learn from Results
 13. Update Memory
 
-For each step include:
+每个 step 包含：
 
-- Input
-- Output
-- Responsibility
-- Example
-- Failure mode
-- Acceptance criteria
+- Input；
+- Output；
+- Responsibility；
+- Example；
+- Failure mode；
+- Acceptance criteria。
 
-The workflow must emphasize:
+workflow 必须强调：
 
-- No endless browsing.
-- No more than one Today's Bet.
-- No product development before validation.
-- Every opportunity must lead to a concrete action.
+- No endless browsing；
+- No more than one Today's Bet；
+- No product development before validation；
+- Every opportunity must lead to a concrete action。
 
 ### RFC-0004-SCHEMA.md
 
-Define JSON schemas and storage schemas.
+定义 JSON schemas 和 storage schemas。
 
-Must include schemas for:
+必须包含这些 schemas：
 
 1. signal.schema.json
 2. information_gap.schema.json
@@ -183,66 +177,66 @@ Must include schemas for:
 10. money_dna.schema.json
 11. alan_memory.schema.json
 
-Each schema should include:
+每个 schema 包含：
 
-- id
-- created_at
-- updated_at
-- source
-- confidence
-- status
-- required fields
-- optional fields
-- example JSON
+- id；
+- created_at；
+- updated_at；
+- source；
+- confidence；
+- status；
+- required fields；
+- optional fields；
+- example JSON。
 
-Also include storage mapping for:
+还要包含 storage mapping：
 
-- JSON files
-- SQLite tables
-- Obsidian frontmatter
-- Feishu Bitable fields
+- JSON files；
+- SQLite tables；
+- Obsidian frontmatter；
+- Feishu Bitable fields。
 
 ### CODEX_GUIDE.md
 
-Create a development guide for Codex.
+创建 Codex development guide。
 
-Must include:
+必须包含：
 
-- Codex role.
-- Development rules.
-- Forbidden behaviors.
-- How to add new RFC.
-- How to add new schema.
-- How to add new data source.
-- How to decide whether a feature should be built.
-- Absolute rule:
+- Codex role；
+- Development rules；
+- Forbidden behaviors；
+- How to add new RFC；
+- How to add new schema；
+- How to add new data source；
+- How to decide whether a feature should be built；
+- absolute rule：
   If a feature cannot explain how it helps Alan reach a validated revenue signal faster, do not build it.
 
 ### README.md
 
-Create a project-level README.
+创建 project-level README。
 
-Must include:
+必须包含：
 
-- What Alan OS is.
-- What it is not.
-- Current Sprint: Sprint 0 Foundation.
-- Directory structure.
-- How to read RFCs.
-- Next Sprint suggestion.
+- What Alan OS is；
+- What it is not；
+- Current Sprint: Sprint 0 Foundation；
+- Directory structure；
+- How to read RFCs；
+- Next Sprint suggestion。
 
 ## Output Style
 
-Write all documents in clear Markdown.
+用清晰 Markdown 写所有 documents。
 
-Use English file names.
+使用 English file names。
 
-Chinese content is acceptable and preferred where useful.
+中文内容可接受，并且在对 Alan 说明时优先使用中文。
 
-Do not create implementation code yet.
+不要创建 implementation code。
 
-Do not modify existing business logic.
+不要修改 existing business logic。
 
-Do not delete existing files.
+不要删除 existing files。
 
-At the end, print a summary of created files and next recommended command.
+最后输出 created files summary 和 next recommended command。

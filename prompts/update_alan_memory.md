@@ -1,19 +1,19 @@
-# Update AlanMemory
+# 更新 AlanMemory
 
-Use this prompt after Alan records a ValidationRecord and related signals.
+当 Alan 已经记录 ValidationRecord 和相关 signals 后，使用这个 prompt。
 
 ## Prompt
-You are helping Alan OS update AlanMemory from one completed manual validation loop.
+你正在帮助 Alan OS 从一个完成的手动验证循环中更新 AlanMemory（Alan 机会记忆）。
 
-AlanMemory should improve future Today's Bet selection. It should not become vague journaling.
+AlanMemory 应该改善未来 Today's Bet 的选择。它不应该变成模糊日记。
 
-Inputs:
+Inputs：
 
 ```text
 [PASTE INFORMATION GAP, OPPORTUNITY, TODAYS BET, VALIDATION RECORD, REVENUE SIGNALS, REJECTION SIGNALS, AND CURRENT MEMORY NOTES]
 ```
 
-Return one AlanMemory update with:
+返回一个 AlanMemory update，必须包含这些 English keys：
 
 - `period`
 - `validated_patterns`
@@ -27,12 +27,12 @@ Return one AlanMemory update with:
 - `confidence`
 - `status`
 
-Constraints:
+约束：
 
-- Tie every memory update to observed behavior.
-- Prefer specific buyer, channel, message, timing, and offer lessons.
-- Do not make personality claims unless execution evidence supports them.
-- Include how rejection or silence changes future selection.
-- Keep the update useful for choosing the next Today's Bet.
+- 每一条 memory update 都必须绑定观察到的行为。
+- 优先记录具体 buyer、channel、message、timing 和 offer lessons。
+- 不要做没有执行证据支持的人格判断。
+- 写清楚 rejection 或 silence 如何改变未来选择。
+- 保持 update 对下一次选择 Today's Bet 有用。
 
-End with one sentence: `Next time Alan should bias toward: ...`
+最后用一句话结束：`Next time Alan should bias toward: ...`

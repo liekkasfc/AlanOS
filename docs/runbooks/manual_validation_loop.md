@@ -1,211 +1,211 @@
-# Manual Validation Loop Runbook
+# 手动验证循环 Runbook
 
-## Purpose
-This runbook explains how Alan manually runs one 60-minute Alan OS validation loop:
+## 目的
+这个 runbook 说明 Alan 如何手动跑完一个 60 分钟 Alan OS 验证循环：
 
-Signal -> InformationGap -> Opportunity -> Today's Bet -> ValidationPlan -> ValidationRecord -> RevenueSignal/RejectionSignal -> AlanMemory.
+Signal（信号 / 原始线索） -> InformationGap（信息差） -> Opportunity（可变现机会） -> Today's Bet（今日唯一验证动作） -> ValidationPlan（验证计划） -> ValidationRecord（验证记录） -> RevenueSignal（收入信号）/RejectionSignal（拒绝信号） -> AlanMemory（Alan 机会记忆）。
 
-The point is not to collect more information. The point is to move from an information gap to a validated revenue signal faster.
+重点不是收集更多信息，而是让 Alan 更快从信息差走到经过验证的收入信号。
 
-## Timebox
-Default timebox: 60 minutes.
+## 时间盒
+默认时间盒：60 分钟。
 
-- 5 minutes: select Signals.
-- 5 minutes: extract one InformationGap.
-- 5 minutes: create one Opportunity.
-- 10 minutes: choose Today's Bet and write the ValidationPlan.
-- 30 minutes: execute the action.
-- 5 minutes: record results and update AlanMemory.
+- 5 分钟：选择 Signals。
+- 5 分钟：提炼一个 InformationGap。
+- 5 分钟：创建一个 Opportunity。
+- 10 分钟：选择 Today's Bet 并写出 ValidationPlan。
+- 30 分钟：执行动作。
+- 5 分钟：记录结果并更新 AlanMemory。
 
-If execution needs the full 60 minutes, record the setup work and schedule the next action. Do not convert the loop into open-ended research.
+如果执行本身需要完整 60 分钟，就记录准备工作并安排下一次动作。不要把循环变成无限研究。
 
-## Preparation Checklist
-Before starting, Alan should have:
+## 准备清单
+开始前，Alan 应该准备好：
 
-- one quiet 60-minute block,
-- `configs/source_registry.yaml` open,
-- `data/sample/` open as examples,
-- the five Sprint 1 prompts available,
-- a place to save manual JSON records,
-- `memory/alan_context.json` reviewed for current constraints,
-- one reachable buyer path or audience surface,
-- a clear rule that no product development happens during the loop.
+- 一个安静的 60 分钟时间块；
+- 打开 `configs/source_registry.yaml`；
+- 打开 `data/sample/` 作为样例；
+- 准备好 Sprint 1 的五个 prompts；
+- 一个保存本地 JSON records 的位置；
+- 复查 `memory/alan_context.json` 中的当前约束；
+- 一个可触达买家路径或 audience surface；
+- 明确规则：本循环内不做产品开发。
 
-## Step 1: Select Signals
-Choose one to three manual Signals from the source registry.
+## Step 1: 选择 Signals
+从 source registry 中选择一到三个手动 Signals。
 
-Good Signals have:
+好的 Signals 通常包含：
 
-- a named pain or workflow,
-- a reachable customer segment,
-- a timing clue,
-- a possible paid action,
-- enough specificity to message a real person.
+- 一个具名 pain 或 workflow；
+- 一个可触达 customer segment；
+- 一个 timing clue；
+- 一个可能的付费动作；
+- 足够具体，可以联系真实的人。
 
-Avoid Signals that are only:
+避免只选择：
 
-- interesting links,
-- broad trend claims,
-- popularity metrics,
-- tool launches without buyer pain,
-- topics Alan cannot act on today.
+- 有趣链接；
+- 宽泛趋势判断；
+- 热度指标；
+- 没有买家痛点的工具发布；
+- Alan 今天无法行动的话题。
 
-Output: one `signal` record for each useful observation.
+输出：每个有效观察对应一个 `signal` record。
 
-## Step 2: Extract an InformationGap
-Ask what temporary mismatch the Signals reveal.
+## Step 2: 提炼 InformationGap
+问自己：这些 Signals 暴露了什么暂时性错配？
 
-Use these questions:
+使用这些问题：
 
-- Who knows or feels the issue early?
-- Who needs the gap closed?
-- Why does the timing matter now?
-- What will make the window close?
-- What would prove this is not a real gap?
+- 谁最早知道或感受到这个问题？
+- 谁需要这个 gap 被关闭？
+- 为什么现在这个时间点重要？
+- 什么会让窗口关闭？
+- 什么会证明这不是一个真实 gap？
 
-The InformationGap should not be a product idea. It should explain a temporary asymmetric advantage.
+InformationGap 不是产品点子。它应该解释一个暂时的不对称优势。
 
-Output: one `information_gap` record.
+输出：一个 `information_gap` record。
 
-## Step 3: Create One Opportunity
-Turn the InformationGap into a monetizable interpretation for a reachable customer.
+## Step 3: 创建一个 Opportunity
+把 InformationGap 转成一个可触达客户愿意付费的解释。
 
-Define:
+定义：
 
-- customer segment,
-- buyer,
-- pain,
-- manual offer,
-- revenue hypothesis,
-- distribution path,
-- lifecycle stage,
-- riskiest assumption.
+- customer segment；
+- buyer；
+- pain；
+- manual offer；
+- revenue hypothesis；
+- distribution path；
+- lifecycle stage；
+- riskiest assumption。
 
-Prefer a service, audit, teardown, consultation, review, script cleanup, buyer-language rewrite, or other manual offer before software.
+在软件之前，优先考虑 service、audit、teardown、consultation、review、script cleanup、buyer-language rewrite 等手动 offer。
 
-Output: one `opportunity` record.
+输出：一个 `opportunity` record。
 
-## Step 4: Choose Today's Bet
-Today's Bet is the one action Alan will do now.
+## Step 4: 选择 Today's Bet
+Today's Bet 是 Alan 现在要做的唯一动作。
 
-The bet must:
+这个 bet 必须：
 
-- fit today,
-- name reachable people,
-- be small enough to start immediately,
-- produce a RevenueSignal or RejectionSignal,
-- include a give-up rule,
-- avoid building software.
+- 适合今天；
+- 指向可触达的人；
+- 小到可以立刻开始；
+- 能产生 RevenueSignal 或 RejectionSignal；
+- 包含 give-up rule；
+- 避免构建软件。
 
-If there are multiple possible bets, choose the one with the shortest path to a real buyer response.
+如果有多个可能 bet，选择离真实买家回应最近的那个。
 
-Output: one `todays_bet` record.
+输出：一个 `todays_bet` record。
 
-## Step 5: Execute the ValidationPlan
-Convert Today's Bet into a concrete plan.
+## Step 5: 执行 ValidationPlan
+把 Today's Bet 转成具体计划。
 
-Include:
+包含：
 
-- target count,
-- channels,
-- action steps,
-- message or offer script,
-- timebox,
-- success threshold,
-- give-up rule,
-- risk notes.
+- target count；
+- channels；
+- action steps；
+- message 或 offer script；
+- timebox；
+- success threshold；
+- give-up rule；
+- risk notes。
 
-Then execute the action. Send the messages, publish the offer, ask the buyer, request the call, or offer the paid manual service.
+然后执行动作。发消息、发布 offer、询问买家、请求 call，或提供付费手动服务。
 
-Do not polish. Do not build. Do not continue researching once the action is clear.
+不要润色。不要构建。动作清楚后不要继续研究。
 
-Output: one `validation_plan` record before execution.
+输出：执行前一个 `validation_plan` record。
 
-## Step 6: Record Validation
-Immediately after execution, record what happened.
+## Step 6: 记录 Validation
+执行后立刻记录发生了什么。
 
-Capture:
+捕捉：
 
-- actions taken,
-- people contacted,
-- responses,
-- silence,
-- objections,
-- outcome,
-- lesson,
-- next action,
-- time spent.
+- actions taken；
+- people contacted；
+- responses；
+- silence；
+- objections；
+- outcome；
+- lesson；
+- next action；
+- time spent。
 
-Silence is data. Rejection is data. A confused reply is data.
+沉默是数据。拒绝是数据。困惑回复也是数据。
 
-Output: one `validation_record` record.
+输出：一个 `validation_record` record。
 
-## Step 7: Record RevenueSignals and RejectionSignals
-Create RevenueSignals for evidence that a real person may pay, has paid, or moved closer to payment.
+## Step 7: 记录 RevenueSignals 和 RejectionSignals
+RevenueSignals 是真实人可能付费、已经付费或更接近付款的证据。
 
-Examples:
+例子：
 
-- booked call,
-- budget-confirming reply,
-- paid pilot,
-- deposit,
-- referral to a buyer,
-- direct request for a paid service.
+- booked call；
+- budget-confirming reply；
+- paid pilot；
+- deposit；
+- referral to a buyer；
+- direct request for a paid service。
 
-Create RejectionSignals for evidence that the offer, segment, timing, price, buyer, or pain is wrong.
+RejectionSignals 是 offer、segment、timing、price、buyer 或 pain 不成立的证据。
 
-Examples:
+例子：
 
-- no response,
-- not urgent,
-- no budget,
-- wrong buyer,
-- already solved,
-- price objection,
-- timing objection,
-- scope mismatch.
+- no response；
+- not urgent；
+- no budget；
+- wrong buyer；
+- already solved；
+- price objection；
+- timing objection；
+- scope mismatch。
 
-Output: one or more `revenue_signal` and `rejection_signal` records.
+输出：一个或多个 `revenue_signal` 和 `rejection_signal` records。
 
-## Step 8: Update AlanMemory
-Write down what should change next time.
+## Step 8: 更新 AlanMemory
+写下下一次选择应该如何改变。
 
-Update:
+更新：
 
-- validated patterns,
-- rejected patterns,
-- strong segments,
-- weak segments,
-- MoneyDNA notes,
-- weekly revenue signals,
-- next biases.
+- validated patterns；
+- rejected patterns；
+- strong segments；
+- weak segments；
+- MoneyDNA notes；
+- weekly revenue signals；
+- next biases。
 
-The memory update should change future selection. If it does not change a future bet, it is probably too vague.
+Memory update 必须改变未来选择。如果它不能改变下一次 bet，说明它太模糊。
 
-Output: one `alan_memory` update for the current week or review period.
+输出：当前周或 review period 的一个 `alan_memory` update。
 
-## What Not To Do
-- Do not build collectors.
-- Do not build analyzers.
-- Do not build automation.
-- Do not create a database.
-- Do not create a UI.
-- Do not add external integrations.
-- Do not turn the loop into a SaaS workflow.
-- Do not chase a news digest.
-- Do not select multiple Today's Bets.
-- Do not build product artifacts before buyer validation.
-- Do not ignore rejection or silence.
+## 不要做什么
+- 不要构建 collectors。
+- 不要构建 analyzers。
+- 不要构建 automation。
+- 不要创建 database。
+- 不要创建 UI。
+- 不要添加 external integrations。
+- 不要把循环变成 SaaS workflow。
+- 不要追新闻摘要。
+- 不要选择多个 Today's Bets。
+- 不要在 buyer validation 前构建 product artifacts。
+- 不要忽略拒绝或沉默。
 
-## Done Criteria
-One manual loop is complete when Alan has:
+## 完成标准
+一个手动循环完成时，Alan 至少拥有：
 
-- at least one Signal,
-- one InformationGap,
-- one Opportunity,
-- one Today's Bet,
-- one ValidationPlan,
-- one ValidationRecord,
-- at least one RevenueSignal or RejectionSignal,
-- one AlanMemory update,
-- one specific next bias for future selection.
+- 至少一个 Signal；
+- 一个 InformationGap；
+- 一个 Opportunity；
+- 一个 Today's Bet；
+- 一个 ValidationPlan；
+- 一个 ValidationRecord；
+- 至少一个 RevenueSignal 或 RejectionSignal；
+- 一个 AlanMemory update；
+- 一个具体的 future selection bias。

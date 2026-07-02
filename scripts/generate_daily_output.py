@@ -193,7 +193,7 @@ def render_daily_output(
 
 Date: {date}
 
-## Today's Bet
+## 今日唯一验证动作
 ID: `{bet['id']}`
 
 Action: {bet['action']}
@@ -210,7 +210,7 @@ Success criteria: {scalar(bet.get('success_criteria'))}
 
 Notes: {scalar(bet.get('notes'))}
 
-## Why this bet
+## 为什么选它
 Opportunity: `{opportunity['id']}` - {opportunity['offer']}
 
 Customer segment: {opportunity['customer_segment']}
@@ -230,7 +230,7 @@ Riskiest assumption: {scalar(opportunity.get('riskiest_assumption'))}
 Alan constraints:
 {context_constraints}
 
-## Validation Plan
+## 执行计划
 Plan ID: `{scalar(plan.get('id') if plan else None)}`
 
 Hypothesis: {scalar(plan.get('hypothesis') if plan else None)}
@@ -251,7 +251,7 @@ Plan give-up rule: {scalar(plan.get('give_up_rule') if plan else None)}
 
 Risk notes: {scalar(plan.get('risk_notes') if plan else None)}
 
-## Evidence and Doubts
+## 证据与疑点
 Evidence Signals:
 {evidence}
 
@@ -268,7 +268,7 @@ Known RejectionSignals:
 AlanMemory next biases:
 {memory_biases}
 
-## Recording Prompts
+## 回填记录提示
 - Record actions taken, people contacted, and time spent.
 - Record RevenueSignals: booked calls, budget-confirming replies, paid requests, deposits, paid pilots, or buyer referrals.
 - Record RejectionSignals: silence, not urgent, no budget, wrong buyer, already solved, price objection, timing objection, or scope mismatch.

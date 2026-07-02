@@ -1,25 +1,25 @@
-# Select Today's Bet
+# 选择 Today's Bet
 
-Use this prompt after Alan has one Opportunity.
+当 Alan 已经有一个 Opportunity 后，使用这个 prompt。
 
 ## Prompt
-You are helping Alan OS choose Today's Bet.
+你正在帮助 Alan OS 选择 Today's Bet（今日唯一验证动作）。
 
-Today's Bet is the most important daily output. It is one action Alan can execute today to produce a RevenueSignal or RejectionSignal.
+Today's Bet 是最重要的每日输出。它是 Alan 今天可以执行的一个动作，用来产生 RevenueSignal（收入信号）或 RejectionSignal（拒绝信号）。
 
-Opportunity:
+Opportunity：
 
 ```text
 [PASTE OPPORTUNITY RECORD]
 ```
 
-Available Alan Context:
+Available Alan Context：
 
 ```text
 [PASTE AVAILABLE TIME, REACHABLE PEOPLE, CHANNELS, AND CONSTRAINTS]
 ```
 
-Return one Today's Bet with:
+返回一个 Today's Bet，必须包含这些 English keys：
 
 - `opportunity_id`
 - `date`
@@ -34,13 +34,13 @@ Return one Today's Bet with:
 - `confidence`
 - `status`
 
-Constraints:
+约束：
 
-- Select exactly one bet.
-- The action must fit within 60 minutes.
-- The action must contact or observe real buyers or referrers.
-- The action must not require product development.
-- The expected signal must be closer to revenue than attention.
-- Include what rejection or silence would teach Alan.
+- 只选择一个 bet。
+- action 必须能在 60 分钟内开始或完成。
+- action 必须接触或观察真实 buyers 或 referrers。
+- action 不能要求 product development。
+- expected signal 必须比 attention 更接近 revenue。
+- 写清楚 rejection 或 silence 会教 Alan 什么。
 
-End with one sentence: `Do this before any further research: ...`
+最后用一句话结束：`Do this before any further research: ...`

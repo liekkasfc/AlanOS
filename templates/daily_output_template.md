@@ -2,7 +2,7 @@
 
 Date: `[YYYY-MM-DD]`
 
-## Today's Bet
+## 今日唯一验证动作
 ID: `[todays_bet_id]`
 
 Action: `[one action Alan will execute today]`
@@ -19,7 +19,7 @@ Success criteria: `[what counts as useful evidence today]`
 
 Notes: `[manual-first guardrail]`
 
-## Why this bet
+## 为什么选它
 Opportunity: `[opportunity_id] - [offer]`
 
 Customer segment: `[customer segment]`
@@ -39,7 +39,7 @@ Riskiest assumption: `[one assumption Today's Bet tests]`
 Alan constraints:
 - `[constraint that affects execution]`
 
-## Validation Plan
+## 执行计划
 Plan ID: `[validation_plan_id]`
 
 Hypothesis: `[validation hypothesis]`
@@ -62,7 +62,7 @@ Plan give-up rule: `[plan-level stop rule]`
 
 Risk notes: `[what not to build or assume]`
 
-## Evidence and Doubts
+## 证据与疑点
 Evidence Signals:
 - `[signal_id: summary]`
 
@@ -79,7 +79,7 @@ Known RejectionSignals:
 AlanMemory next biases:
 - `[future selection bias]`
 
-## Recording Prompts
+## 回填记录提示
 - Record actions taken, people contacted, and time spent.
 - Record RevenueSignals: booked calls, budget-confirming replies, paid requests, deposits, paid pilots, or buyer referrals.
 - Record RejectionSignals: silence, not urgent, no budget, wrong buyer, already solved, price objection, timing objection, or scope mismatch.

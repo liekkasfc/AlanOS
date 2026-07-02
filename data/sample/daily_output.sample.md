@@ -2,7 +2,7 @@
 
 Date: 2026-06-29
 
-## Today's Bet
+## 今日唯一验证动作
 ID: `bet_sample_001`
 
 Action: Send five targeted messages to AI founders asking whether enterprise security questionnaires have delayed a deal and offering a paid readiness review.
@@ -19,7 +19,7 @@ Success criteria: At least one serious reply, booked call, or paid review reques
 
 Notes: Do not build templates before founder validation.
 
-## Why this bet
+## 为什么选它
 Opportunity: `opp_sample_001` - Fixed-price 48-hour AI security questionnaire readiness review.
 
 Customer segment: Small B2B AI vendors selling pilots to enterprise buyers
@@ -43,7 +43,7 @@ Alan constraints:
 - Avoid heavy build before buyer signal.
 - Strong fit around AI, automation, technical service, bilingual research, and content output.
 
-## Validation Plan
+## 执行计划
 Plan ID: `plan_sample_001`
 
 Hypothesis: Founders with active enterprise deals will discuss or pay for a fast security-questionnaire readiness review.
@@ -67,7 +67,7 @@ Plan give-up rule: Stop after five messages and one follow-up batch; record sile
 
 Risk notes: Avoid turning this into a template product before a founder confirms urgency or budget.
 
-## Evidence and Doubts
+## 证据与疑点
 Evidence Signals:
 - sig_sample_001: Small AI vendor is blocked by procurement security questions during an enterprise sales process.
 
@@ -84,7 +84,7 @@ Known RejectionSignals:
 AlanMemory next biases:
 - Prefer opportunities where Alan can name an active buyer event and offer a manual review within 48 hours.
 
-## Recording Prompts
+## 回填记录提示
 - Record actions taken, people contacted, and time spent.
 - Record RevenueSignals: booked calls, budget-confirming replies, paid requests, deposits, paid pilots, or buyer referrals.
 - Record RejectionSignals: silence, not urgent, no budget, wrong buyer, already solved, price objection, timing objection, or scope mismatch.
